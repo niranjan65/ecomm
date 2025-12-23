@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
+
+@font-face {
+  font-family: Noto;
+  src: url("../src/assets/fonts/NotoSans-VariableFont_wdth\,wght.ttf");
+}
+
+
+@import "tailwindcss";
+
+@theme {
+  --font-noto: Noto, sans-serif;
+  --font-doto: Doto, sans-serif;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
