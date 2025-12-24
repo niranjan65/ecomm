@@ -907,6 +907,7 @@ import parse from 'html-react-parser';
 import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from 'react-markdown';
 import ReviewSection from '../components/ReviewSection';
+import EcommerceChatbot from '../components/EcommerceChatbot';
 
 const SingleProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -1149,6 +1150,8 @@ const SingleProductPage = () => {
           </div>
         </div>
       </div>
+
+      <EcommerceChatbot item_code={productData?.name} item_name={productData?.item_name} item_group={productData?.item_group} description={productData?.description} />
 
       {/* Details Section */}
       <div className='bg-white w-full px-4 sm:px-8 py-6 sm:py-8'>

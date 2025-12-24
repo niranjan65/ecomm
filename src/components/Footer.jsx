@@ -34,7 +34,7 @@ const Footer = () => {
             </div>
             <div>
               <h5 className="font-semibold text-sm mb-2">Download App</h5>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" className="h-8" alt="App Store" />
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" className="h-8" alt="Google Play" />
               </div>
