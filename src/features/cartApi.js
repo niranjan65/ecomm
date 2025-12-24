@@ -6,7 +6,7 @@ export const cartApi = createApi({
   reducerPath: 'cartApi',
   baseQuery: fetchBaseQuery({ 
     baseUrl: BASE_URL,
-    credentials: 'include', // Include cookies for authentication
+    credentials: 'include', 
     prepareHeaders: (headers) => {
         headers.set('Authorization', `token 1a5cfcab01776e5:63628feef82aa59`)
     }
