@@ -29,7 +29,7 @@
 
 // const FilterSection = ({ title, children, defaultOpen = true }) => {
 //   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
 //   return (
 //     <div className="border-b border-gray-200 py-6">
 //       <button
@@ -120,7 +120,7 @@
 //       console.log("data", data?.message)
 
 //       setProducts(data?.message?.items)
-      
+
 
 //     } catch (error) {
 
@@ -130,7 +130,7 @@
 //   useEffect(() => {
 //     getAllProducts()
 //   }, [])
-  
+
 
 //   return (
 //     <div className="min-h-screen bg-gray-50">
@@ -340,7 +340,7 @@
 //         }
 //     }
 
-    
+
 //      return ( 
 //   <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
 //     <div className="relative bg-gray-50 aspect-square flex items-center justify-center p-4">
@@ -383,7 +383,7 @@
 
 // const FilterSection = ({ title, children, defaultOpen = true }) => {
 //   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
 //   return (
 //     <div className="border-b border-gray-200 py-6">
 //       <button
@@ -430,7 +430,7 @@
 //     { name: 'tan', class: 'bg-amber-200' },
 //   ];
 
-  
+
 
 //   const toggleSize = (size) => {
 //     setSelectedSizes(prev =>
@@ -448,7 +448,7 @@
 //     try {
 //       setLoading(true);
 //       setError(null);
-      
+
 //       const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
 //         method: 'POST',
 //         headers: {
@@ -468,7 +468,7 @@
 //       });
 
 //       const data = await response.json();
-      
+
 //       if (data?.message?.items) {
 //         setProducts(data.message.items);
 //       } else {
@@ -685,16 +685,18 @@
 // }
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronDown, Minus, Grid, List, MoreVertical, Heart, ShoppingCart, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { 
-  useAddToCartMutation, 
-  useAddToWishlistMutation, 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from "../features/slices/productsListSlice";
+import {
+  useAddToCartMutation,
+  useAddToWishlistMutation,
   useRemoveFromWishlistMutation,
-  useGetCartQuotationQuery 
+  useGetCartQuotationQuery
 } from '../features/cartApi';
+import { set } from 'react-hook-form';
 
 const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCart }) => {
   const [isWished, setIsWished] = useState(productData?.wished || false);
@@ -717,7 +719,7 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
             {productData.discount}
           </div>
         )}
-        
+
         {/* Wishlist Button */}
         <button
           onClick={handleWishlistClick}
@@ -728,10 +730,9 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
           {isTogglingWish ? (
             <Loader2 className="w-5 h-5 animate-spin text-gray-600" />
           ) : (
-            <Heart 
-              className={`w-5 h-5 transition-colors ${
-                isWished ? 'fill-red-500 text-red-500' : 'text-gray-600'
-              }`}
+            <Heart
+              className={`w-5 h-5 transition-colors ${isWished ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                }`}
             />
           )}
         </button>
@@ -743,20 +744,20 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
           </div>
         )}
 
-        <Link to={`/product/${productData?.item_name}`} state={{productCode: productData?.name }} className="w-full h-full flex items-center justify-center">
-          <img 
-            src={`http://192.168.101.182:8002${productData?.website_image}`} 
-            alt={productData?.item_name || 'Product'} 
+        <Link to={`/product/${productData?.item_name}`} state={{ productCode: productData?.name }} className="w-full h-full flex items-center justify-center">
+          <img
+            src={`http://192.168.101.182:8002${productData?.website_image}`}
+            alt={productData?.item_name || 'Product'}
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-            // onError={(e) => {
-            //   e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
-            // }}
+          // onError={(e) => {
+          //   e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
+          // }}
           />
         </Link>
       </div>
 
       <div className="p-4">
-        <Link to={`/product/${productData?.item_name}`} state={{productCode: productData?.name }}>
+        <Link to={`/product/${productData?.item_name}`} state={{ productCode: productData?.name }}>
           <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-10 hover:text-gray-600 transition-colors">
             {productData?.item_name || 'Product Name'}
           </h3>
@@ -777,14 +778,14 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
               </span>
               {productData?.price_list_rate && productData?.formatted_price && (
                 <span className="text-green-600 text-xs font-medium">
-                  {Math.round(((productData.price_list_rate - parseFloat(productData.formatted_price.replace(/[^0-9.-]+/g,""))) / productData.price_list_rate) * 100)}% OFF
+                  {Math.round(((productData.price_list_rate - parseFloat(productData.formatted_price.replace(/[^0-9.-]+/g, ""))) / productData.price_list_rate) * 100)}% OFF
                 </span>
               )}
             </>
           )}
         </div>
 
-        <button 
+        <button
           onClick={() => onAddToCart(productData?.item_code)}
           disabled={!productData?.in_stock || isAddingToCart}
           className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg font-medium transition-all disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -808,7 +809,7 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
 
 const FilterSection = ({ title, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
   return (
     <div className="border-b border-gray-200 py-6">
       <button
@@ -827,9 +828,9 @@ const WishListItem = ({ name, image, route }) => (
   <Link to={`/product/${route}`}>
     <div className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
       <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-        <img 
-          src={image} 
-          alt={name} 
+        <img
+          src={image}
+          alt={name}
           className="w-full h-full object-cover"
           onError={(e) => {
             e.target.src = 'https://via.placeholder.com/64?text=No+Image';
@@ -853,10 +854,10 @@ export default function AllProductsList() {
   const [error, setError] = useState(null);
   const [addingToCartId, setAddingToCartId] = useState(null);
   const [category, setCategory] = useState(null)
+  const dispatch = useDispatch();
 
 
-
-   // Pagination state
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [itemsCount, setItemsCount] = useState(0);
@@ -865,16 +866,63 @@ export default function AllProductsList() {
   const PAGE_LENGTH = 9;
 
   const location = useLocation()
+  // useCallback(() => {
+  //   console.log("location state:", location?.state.category)
+  //   if (location?.state?.category) {
+  //     setCategory(location.state.category)
+  //   }
+  // }, [location]);
 
-  
+
 
   useEffect(() => {
-    if(location?.state?.category) {
-      
+    console.log("location state:", location?.state.category)
+    if (location?.state?.category) {
+      let payload = {
+        page: 1,
+        category: location.state.category,
+        pageLength: PAGE_LENGTH
+      }
+      dispatch(fetchData(payload));
       setCategory(location.state.category)
     }
-  }, [])
-  
+  }, [location?.state?.category]);
+
+  const apidata = useSelector((state) => state.productsList);
+
+  useEffect(() => {
+    if (!apidata) return;
+
+    // setLoading(apidata.loading);
+    console.log("apidata:", apidata.data);
+    // setError(apidata.error);
+    // console.log("apidata loading:", apidata.state == "loading");
+    setLoading(apidata.state == "loading");
+    // setError(apidata.error);
+
+    console.log("apidata from redux:", apidata.data.items)
+    setProducts(apidata.data.items || []);
+    setItemsCount(apidata.data.items_count + apidata.data.start || 0);
+    setHasMore(apidata.data.has_more || false);
+    // setCurrentPage(currentPage);
+    // setProducts(result.items);
+        // setFilters(result.filters || {});
+        // setItemsCount(result.items_count + result.start);
+        // setHasMore(result.has_more);
+        // setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  }, [apidata,currentPage]);
+
+
+
+  // useEffect(() => {
+  //   // console.log("category state changed:", category)
+  //   // dispatch(fetchproduct()); 
+  //   dispatch(fetchData(1, false, category, PAGE_LENGTH));
+  //   console.log("apidata:", apidata)
+  // }, []);
+
 
   // RTK Query hooks
   const [addToCart] = useAddToCartMutation();
@@ -907,12 +955,12 @@ export default function AllProductsList() {
   // Handle add to cart
   const handleAddToCart = async (itemCode) => {
     if (!itemCode) return;
-    
+
     setAddingToCartId(itemCode);
     try {
       await addToCart({ itemCode, qty: 1 }).unwrap();
       await refetchCart();
-      
+
       // Optional: Show success message
       alert('Item added to cart successfully!');
     } catch (err) {
@@ -926,7 +974,7 @@ export default function AllProductsList() {
   // Handle toggle wishlist
   const handleToggleWishlist = async (itemCode, shouldAdd) => {
     if (!itemCode) return;
-    
+
     try {
       if (shouldAdd) {
         await addToWishlist(itemCode).unwrap();
@@ -940,14 +988,15 @@ export default function AllProductsList() {
   };
 
   // Fetch all products
-  const getAllProducts = async (page,  resetFilters = false) => {
-     const start = (page - 1) * PAGE_LENGTH;
+
+  const getAllProducts = async (page, resetFilters = false) => {
+    const start = (page - 1) * PAGE_LENGTH;
     try {
       setLoading(true);
       setError(null);
 
-      
-      
+
+
       const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
         method: 'POST',
         headers: {
@@ -969,18 +1018,18 @@ export default function AllProductsList() {
 
       const data = await response.json();
 
-       if (data.message) {
+      if (data.message) {
         const result = data.message;
         setProducts(result.items);
         // setFilters(result.filters || {});
         setItemsCount(result.items_count + result.start);
         setHasMore(result.has_more);
         setCurrentPage(page);
-        
-     
+
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      
+
       // if (data?.message?.items) {
       //   setProducts(data.message.items);
       // } else {
@@ -996,7 +1045,7 @@ export default function AllProductsList() {
   };
 
   useEffect(() => {
-    getAllProducts(1);
+    // getAllProducts(1);
   }, []);
 
   const gridClasses = {
@@ -1011,20 +1060,34 @@ export default function AllProductsList() {
   const wishlistItems = products.filter(p => p.wished).slice(0, 5);
 
 
-   const handleNextPage = () => {
+  const handleNextPage = () => {
     if (hasMore && !loading) {
-      getAllProducts(currentPage + 1, false);
+      // getAllProducts(currentPage + 1, false);
+      let payload = {
+        page: currentPage + 1,
+        category: category,
+        pageLength: PAGE_LENGTH
+      }
+      dispatch(fetchData(payload));
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1 && !loading) {
-      getAllProducts(currentPage - 1, false);
+      // getAllProducts(currentPage - 1, false);
+      let payload = {
+        page: currentPage - 1,
+        category: category,
+        pageLength: PAGE_LENGTH
+      }
+      dispatch(fetchData(payload));
+      setCurrentPage(currentPage - 1);
     }
   };
 
 
-   const totalPages = Math.ceil(itemsCount / PAGE_LENGTH);
+  const totalPages = Math.ceil(itemsCount / PAGE_LENGTH);
   const startItem = (currentPage - 1) * PAGE_LENGTH + 1;
   const endItem = Math.min(currentPage * PAGE_LENGTH, itemsCount);
 
@@ -1037,7 +1100,7 @@ export default function AllProductsList() {
             <div className="bg-white rounded-lg p-6 lg:sticky lg:top-8 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Filter</h2>
-                <button 
+                <button
                   onClick={() => {
                     setSelectedSizes([]);
                     setSelectedColors([]);
@@ -1057,11 +1120,10 @@ export default function AllProductsList() {
                     <button
                       key={size}
                       onClick={() => toggleSize(size)}
-                      className={`py-3 px-4 border rounded-lg font-medium transition-all duration-200 ${
-                        selectedSizes.includes(size)
-                          ? 'bg-black text-white border-black scale-95'
-                          : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400 hover:scale-105'
-                      }`}
+                      className={`py-3 px-4 border rounded-lg font-medium transition-all duration-200 ${selectedSizes.includes(size)
+                        ? 'bg-black text-white border-black scale-95'
+                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400 hover:scale-105'
+                        }`}
                     >
                       {size}
                     </button>
@@ -1076,11 +1138,10 @@ export default function AllProductsList() {
                     <button
                       key={color.name}
                       onClick={() => toggleColor(color.name)}
-                      className={`w-10 h-10 rounded-full ${color.class} ${
-                        selectedColors.includes(color.name) 
-                          ? 'ring-2 ring-offset-2 ring-gray-900 scale-110' 
-                          : 'hover:scale-110'
-                      } transition-all duration-200`}
+                      className={`w-10 h-10 rounded-full ${color.class} ${selectedColors.includes(color.name)
+                        ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
+                        : 'hover:scale-110'
+                        } transition-all duration-200`}
                       aria-label={`Select ${color.name} color`}
                       title={color.name}
                     />
@@ -1132,7 +1193,7 @@ export default function AllProductsList() {
                   </div>
                   <div className="space-y-2">
                     {wishlistItems.map((item, index) => (
-                      <WishListItem 
+                      <WishListItem
                         key={item.item_code || index}
                         name={item.item_name}
                         image={`http://192.168.101.182:8002${item.website_image}`}
@@ -1141,8 +1202,8 @@ export default function AllProductsList() {
                     ))}
                   </div>
                   {products.filter(p => p.wished).length > 5 && (
-                    <Link 
-                      to="/wishlist" 
+                    <Link
+                      to="/wishlist"
                       className="block text-center mt-3 text-sm text-gray-600 hover:text-gray-900 underline"
                     >
                       View All
@@ -1215,11 +1276,11 @@ export default function AllProductsList() {
                 <div className="text-red-600 text-5xl mb-4">⚠️</div>
                 <p className="text-red-600 font-semibold mb-2 text-lg">{error}</p>
                 <p className="text-red-500 text-sm mb-4">Something went wrong while loading the products</p>
-                <button 
+                <button
                   onClick={getAllProducts}
                   className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium inline-flex items-center gap-2"
                 >
-                   Retry
+                  Retry
                 </button>
               </div>
             ) : products.length === 0 ? (
@@ -1231,7 +1292,7 @@ export default function AllProductsList() {
             ) : (
               <div className={`grid ${gridClasses[viewMode]} gap-6`}>
                 {products.map((product, index) => (
-                  <ProductCard 
+                  <ProductCard
                     key={product.name || index}
                     productData={product}
                     onAddToCart={handleAddToCart}
@@ -1243,34 +1304,34 @@ export default function AllProductsList() {
             )}
 
             <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                  {/* Previous Button */}
-                  <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1 || loading}
-                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                    Previous
-                  </button>
+              {/* Previous Button */}
+              <button
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1 || loading}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+              >
+                <ChevronLeft className="h-5 w-5" />
+                Previous
+              </button>
 
-                  {/* Page Info */}
-                  {/* <div className="text-center">
+              {/* Page Info */}
+              {/* <div className="text-center">
                     <p className="text-sm text-gray-700">
                       Page <span className="font-semibold">{currentPage}</span> of{' '}
                       <span className="font-semibold">{totalPages}</span>
                     </p>
                   </div> */}
 
-                  {/* Next Button */}
-                  <button
-                    onClick={handleNextPage}
-                    disabled={!hasMore || loading}
-                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
-                  >
-                    Next
-                    <ChevronRight className="h-5 w-5" />
-                  </button>
-                </div>
+              {/* Next Button */}
+              <button
+                onClick={handleNextPage}
+                disabled={!hasMore || loading}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+              >
+                Next
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

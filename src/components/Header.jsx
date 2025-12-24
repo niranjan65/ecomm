@@ -12,10 +12,10 @@
 //   const [searchOpen, setSearchOpen] = useState(false)
 //   const { data, isLoading, error, refetch } = useGetCartQuotationQuery();
 
-  
+
 
 //   const navigate = useNavigate();
-  
+
 //   return (
 //     <div>
 //       {/* Header */}
@@ -29,10 +29,10 @@
 //             >
 //               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
 //             </button>
-            
+
 //             {/* Logo */}
 //             <h1 onClick={() => navigate('/')} className="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer">Ecomm</h1>
-            
+
 //             {/* Desktop Search Bar */}
 //             <div className="hidden lg:flex flex-1 max-w-2xl">
 //               <select className="px-4 py-2 border border-r-0 border-gray-300 rounded-l text-sm bg-white focus:outline-none">
@@ -49,7 +49,7 @@
 //                 <Search className="w-5 h-5" />
 //               </button>
 //             </div>
-            
+
 //             {/* Right Icons */}
 //             <div className="flex items-center gap-3 sm:gap-6">
 //               <button 
@@ -71,7 +71,7 @@
 //               </button>
 //             </div>
 //           </div>
-          
+
 //           {/* Mobile Search Bar */}
 //           {searchOpen && (
 //             <div className="lg:hidden mt-3 flex gap-2">
@@ -101,7 +101,7 @@
 //               <Menu className="w-5 h-5" />
 //               SHOP BY CATEGORIES
 //             </button>
-            
+
 //             <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600">
 //               SHOP
 //               <ChevronDown className="w-4 h-4" />
@@ -117,7 +117,7 @@
 //           </nav>
 //         </div>
 //       </div>
-      
+
 //       {/* Mobile Menu */}
 //       {mobileMenuOpen && (
 //         <div className="lg:hidden bg-white border-b border-gray-200">
@@ -129,7 +129,7 @@
 //                   SHOP BY CATEGORIES
 //                 </span>
 //               </button>
-              
+
 //               <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700">
 //                 <span>SHOP</span>
 //                 <ChevronDown className="w-4 h-4" />
@@ -176,7 +176,7 @@
 //   const [suggestions, setSuggestions] = useState([]);
 //   const [showSuggestions, setShowSuggestions] = useState(false);
 //   const [searching, setSearching] = useState(false);
-  
+
 //   const navigate = useNavigate();
 //   const searchInputRef = useRef(null);
 //   const mobileSearchInputRef = useRef(null);
@@ -237,9 +237,9 @@
 //     setSearchTerm(suggestion.label);
 //     setShowSuggestions(false);
 //     setSearchOpen(false);
-    // navigate(`/product/${encodeURIComponent(suggestion.label)}`, {
-    //   state: {productCode: suggestion?.item_code }
-    // })
+// navigate(`/product/${encodeURIComponent(suggestion.label)}`, {
+//   state: {productCode: suggestion?.item_code }
+// })
 //   };
 
 //   const handleKeyPress = (e) => {
@@ -290,12 +290,12 @@
 //             >
 //               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
 //             </button>
-            
+
 //             {/* Logo */}
 //             <h1 onClick={() => navigate('/')} className="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer">
 //               Ecomm
 //             </h1>
-            
+
 //             {/* Desktop Search Bar */}
 //             <div className="hidden lg:flex flex-1 max-w-2xl relative">
 //               <select className="px-4 py-2 border border-r-0 border-gray-300 rounded-l text-sm bg-white focus:outline-none">
@@ -358,7 +358,7 @@
 //                 </div>
 //               )}
 //             </div>
-            
+
 //             {/* Right Icons */}
 //             <div className="flex items-center gap-3 sm:gap-6">
 //               <button 
@@ -378,7 +378,7 @@
 //               </button>
 //             </div>
 //           </div>
-          
+
 //           {/* Mobile Search Bar */}
 //           {searchOpen && (
 //             <div className="lg:hidden mt-3 relative">
@@ -455,7 +455,7 @@
 //               <Menu className="w-5 h-5" />
 //               SHOP BY CATEGORIES
 //             </button>
-            
+
 //             <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600">
 //               SHOP
 //               <ChevronDown className="w-4 h-4" />
@@ -471,7 +471,7 @@
 //           </nav>
 //         </div>
 //       </div>
-      
+
 //       {/* Mobile Menu */}
 //       {mobileMenuOpen && (
 //         <div className="lg:hidden bg-white border-b border-gray-200">
@@ -483,7 +483,7 @@
 //                   SHOP BY CATEGORIES
 //                 </span>
 //               </button>
-              
+
 //               <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700">
 //                 <span>SHOP</span>
 //                 <ChevronDown className="w-4 h-4" />
@@ -522,15 +522,18 @@
 
 
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Activity } from 'react';
 import { ChevronDown, Menu, Search, ShoppingCart, User, X, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useGetCartQuotationQuery } from '../features/cartApi';
-
+import { apiGet } from '../hooks/erpnextApi';
+import { set } from 'react-hook-form';
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [fetchcategories, setFetchCategories] = useState([]);
+
 
   const navigate = useNavigate()
 
@@ -540,9 +543,10 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [searching, setSearching] = useState(false);
+  const [show_shop_categories_options, setShowShopCategories_options] = useState(false);
 
   const { data, isLoading, error, refetch } = useGetCartQuotationQuery();
-  
+
   const searchInputRef = useRef(null);
   const mobileSearchInputRef = useRef(null);
   const suggestionsRef = useRef(null);
@@ -556,6 +560,15 @@ const Header = () => {
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  useEffect(() => {
+    apiGet("http://192.168.101.182:8002/api/method/custom.api.get_item_group.get_item_group").then((response) => {
+      // console.log("Categories fetched:", response.message);
+      setFetchCategories(response.message);
+    }).catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
+  }, []);
 
   // Fetch suggestions when debounced term changes
   useEffect(() => {
@@ -604,7 +617,7 @@ const Header = () => {
     setShowSuggestions(false);
     setSearchOpen(false);
     navigate(`/product/${encodeURIComponent(suggestion.label)}`, {
-      state: {productCode: suggestion?.item_code }
+      state: { productCode: suggestion?.item_code }
     })
     console.log('Clicked suggestion:', suggestion);
   };
@@ -626,11 +639,11 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if click is inside any of the search-related elements
-      const clickedInsideSuggestions = 
+      const clickedInsideSuggestions =
         (suggestionsRef.current && suggestionsRef.current.contains(event.target)) ||
         (mobileSuggestionsRef.current && mobileSuggestionsRef.current.contains(event.target));
-      
-      const clickedInsideInput = 
+
+      const clickedInsideInput =
         (searchInputRef.current && searchInputRef.current.contains(event.target)) ||
         (mobileSearchInputRef.current && mobileSearchInputRef.current.contains(event.target));
 
@@ -644,6 +657,20 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+
+  //   const Activity = ({ mode, children }) => {
+  //   return (
+  //     <div 
+  //       className={`overflow-hidden transition-all duration-300 ease-in-out ${
+  //         mode === "visible" 
+  //           ? 'max-h-screen opacity-100 visible' 
+  //           : 'max-h-0 opacity-0 invisible'
+  //       }`}
+  //     >
+  //       {children}
+  //     </div>
+  //   );
+  // };
   return (
     <div>
       {/* Header */}
@@ -651,22 +678,27 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Mobile Menu Button */}
-            <button 
+            <button
               className="lg:hidden text-gray-700"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-            
+
             {/* Logo */}
             <h1 onClick={() => navigate('/')} className="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer">
               Ecomm
             </h1>
-            
+
             {/* Desktop Search Bar */}
             <div className="hidden lg:flex flex-1 max-w-2xl relative">
               <select className="px-4 py-2 border border-r-0 border-gray-300 rounded-l text-sm bg-white focus:outline-none">
                 <option>All Categories</option>
+                {fetchcategories && fetchcategories.map((category) => (
+                  <option key={category.name} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
               <div className="relative flex-1">
                 <input
@@ -683,7 +715,7 @@ const Header = () => {
                   <Loader2 className="absolute right-3 top-2.5 h-5 w-5 animate-spin text-gray-400" />
                 )}
               </div>
-              <button 
+              <button
                 onClick={handleSearch}
                 className="px-6 bg-black text-white rounded-r hover:bg-gray-800"
               >
@@ -725,10 +757,10 @@ const Header = () => {
                 </div>
               )}
             </div>
-            
+
             {/* Right Icons */}
             <div className="flex items-center gap-3 sm:gap-6">
-              <button 
+              <button
                 className="lg:hidden text-gray-700 hover:text-blue-600"
                 onClick={() => setSearchOpen(!searchOpen)}
               >
@@ -745,7 +777,7 @@ const Header = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Mobile Search Bar */}
           {searchOpen && (
             <div className="lg:hidden mt-3 relative">
@@ -768,7 +800,7 @@ const Header = () => {
                     <Loader2 className="absolute right-3 top-2.5 h-5 w-5 animate-spin text-gray-400" />
                   )}
                 </div>
-                <button 
+                <button
                   onClick={handleSearch}
                   className="px-4 bg-black text-white rounded hover:bg-gray-800"
                 >
@@ -818,60 +850,229 @@ const Header = () => {
       <div className="hidden lg:block bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
           <nav className="flex items-center gap-8 text-sm font-medium">
-            <button className="flex items-center gap-2 py-4 px-3 border-b-2 border-gray-600 text-gray-900 hover:bg-black hover:text-white">
-              <Menu className="w-5 h-5" />
-              SHOP BY CATEGORIES
-            </button>
-            
-            <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600">
-              SHOP
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600">
-              PRODUCTS
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600">
-              PAGE
-              <ChevronDown className="w-4 h-4" />
-            </button>
+            {/* Shop by Categories */}
+            <div className="relative group">
+              <button
+                className="flex items-center gap-2 py-4 px-3 border-b-2 border-gray-600 text-gray-900 hover:bg-black hover:text-white transition-all duration-200"
+                onClick={() => setShowShopCategories_options(!show_shop_categories_options)}
+              >
+                <Menu className="w-5 h-5" />
+                SHOP BY CATEGORIES
+              </button>
+
+              {/* Premium Dropdown Menu */}
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                  <div className="grid grid-cols-2 gap-6 p-6">
+                    <div>
+                      {/* <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Shop Categories</h3> */}
+                      <ul className="space-y-2">
+                        {fetchcategories && fetchcategories.map((category) => (
+                          <li key={category.name}>
+                            <a
+                              onClick={() => {
+                                navigate('/productlist', {
+                                  state: { category: category.name }
+                                })
+                              }} className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm"> {category.name}</a>
+                          </li>
+                        ))}
+                        {/* <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">New Arrivals</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Best Sellers</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Featured</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">On Sale</a></li> */}
+                      </ul>
+                    </div>
+                    {/* <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Collections</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Summer</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Winter</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Limited Edition</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Clearance</a></li>
+                      </ul>
+                    </div> */}
+                  </div>
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                    <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">View All Shop →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Shop Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+                SHOP
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+
+              {/* Premium Dropdown Menu */}
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                  <div className="grid grid-cols-2 gap-6 p-6">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Shop Categories</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">New Arrivals</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Best Sellers</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Featured</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">On Sale</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Collections</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Summer</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Winter</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Limited Edition</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Clearance</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                    <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">View All Shop →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Products Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+                PRODUCTS
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+
+              {/* Premium Dropdown Menu */}
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                  <div className="grid grid-cols-3 gap-6 p-6">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Electronics</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Laptops</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Phones</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Tablets</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Fashion</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Men</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Women</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kids</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Home & Living</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Furniture</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Decor</a></li>
+                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kitchen</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                    <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">Browse All Products →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Page Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+                PAGE
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+
+              {/* Premium Dropdown Menu */}
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                  <div className="p-4 space-y-1">
+                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors duration-200 text-sm">About Us</a>
+                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors duration-200 text-sm">Contact Us</a>
+                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors duration-200 text-sm">FAQ</a>
+                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors duration-200 text-sm">Privacy Policy</a>
+                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors duration-200 text-sm">Terms & Conditions</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </nav>
         </div>
-      </div>
-      
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-gray-200">
-          <div className="px-4 py-2">
-            <nav className="flex flex-col text-sm font-medium">
-              <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-900">
-                <span className="flex items-center gap-2">
-                  <Menu className="w-5 h-5" />
-                  SHOP BY CATEGORIES
-                </span>
-              </button>
-              
-              <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700">
-                <span>SHOP</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700">
-                <span>PRODUCTS</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <button className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700">
-                <span>PAGE</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <button className="flex items-center gap-2 py-3 text-gray-700">
-                <User className="w-5 h-5" />
-                <span>Account</span>
-              </button>
-            </nav>
+      </div >
+
+      {/* Mobile Menu with Premium Dropdowns */}
+      {
+        mobileMenuOpen && (
+          <div className="lg:hidden bg-white border-b border-gray-200">
+            <div className="px-4 py-2">
+              <nav className="flex flex-col text-sm font-medium">
+                <button
+                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-900"
+                  onClick={() => setShowShopCategories_options(!show_shop_categories_options)}
+                >
+                  <span className="flex items-center gap-2">
+                    <Menu className="w-5 h-5" />
+                    SHOP BY CATEGORIES
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${show_shop_categories_options ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Mobile Shop Dropdown */}
+                {show_shop_categories_options && (
+                  <div className="bg-gray-50 py-3 px-4 border-b border-gray-100">
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option>All Categories</option>
+                      {fetchcategories && fetchcategories.map((category) => (
+                        <option key={category.name} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Mobile Shop Button */}
+                <button
+                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
+                  onClick={() => {/* Toggle Shop submenu */ }}
+                >
+                  <span>SHOP</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+
+                {/* Mobile Products Button */}
+                <button
+                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
+                  onClick={() => {/* Toggle Products submenu */ }}
+                >
+                  <span>PRODUCTS</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+
+                {/* Mobile Page Button */}
+                <button
+                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
+                  onClick={() => {/* Toggle Page submenu */ }}
+                >
+                  <span>PAGE</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+
+                <button className="flex items-center gap-2 py-3 text-gray-700">
+                  <User className="w-5 h-5" />
+                  <span>Account</span>
+                </button>
+              </nav>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+
+    </div >
   );
 };
 
