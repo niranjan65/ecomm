@@ -1,6 +1,6 @@
 import { trpc } from "./client"
 import EcommerceHomepage from "./EcommerceHomePage"
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CartPage from "./pages/CartPage"
 import SingleProductPage from "./pages/SingleProductPage"
 import Header from "./components/Header"
@@ -13,11 +13,8 @@ import AllProductList from "./pages/AllProductList"
 
 
 function App() {
-  
 
-const result =trpc.sayHi.query().then((res) => {
-  console.log(res)
-})
+
 
   return (
     <>
@@ -25,20 +22,20 @@ const result =trpc.sayHi.query().then((res) => {
 
       <BrowserRouter>
         <div>
-       <Header />
+          <Header />
           <Routes>
 
-          <Route path="/" Component={EcommerceHomepage} />
-          {/* <Route path="/" Component={Form} />
+            <Route path="/" Component={EcommerceHomepage} />
+            {/* <Route path="/" Component={Form} />
           <Route path="/reset" Component={ResetPasswordRequest} />
           <Route path="/reset-password" Component={PasswordResetPage} /> */}
-          <Route path="/productlist" Component={AllProductList} />
-          <Route path="/checkout/cart" Component={CartPage} />
-          {/* <Route path="/product/:id" Component={SingleProductPage} /> */}
-          <Route path="/:category/:slug" Component={SingleProductPage} />
-        </Routes>
+            <Route path="/productlist" Component={AllProductList} />
+            <Route path="/checkout/cart" Component={CartPage} />
+            {/* <Route path="/product/:id" Component={SingleProductPage} /> */}
+            <Route path="/:category/:slug" Component={SingleProductPage} />
+          </Routes>
 
-        <Footer />
+          <Footer />
         </div>
       </BrowserRouter>
     </>

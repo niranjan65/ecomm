@@ -186,7 +186,7 @@
 //                 className="w-full h-full object-cover"
 //               />
 //             </div>
-            
+
 //             {/* Category Name */}
 //             <span className="text-xs font-medium text-gray-800 text-center leading-tight px-1">
 //               {category.name}
@@ -236,7 +236,7 @@
 //             View All <ChevronRight className="w-4 h-4" />
 //           </button>
 //         </div>
-        
+
 //         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 //           {smartphones.map((phone, idx) => (
 //             <ProductCard phone={phone} idx={idx} />
@@ -254,7 +254,7 @@
 //             View All <ChevronRight className="w-4 h-4" />
 //           </button>
 //         </div>
-        
+
 //         <div className="grid grid-cols-7 gap-4">
 //           {categories.map((cat, idx) => (
 //             <div key={idx} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition cursor-pointer group">
@@ -279,7 +279,7 @@
 //             View All <ChevronRight className="w-4 h-4" />
 //           </button>
 //         </div>
-        
+
 //         <div className="grid grid-cols-4 gap-4">
 //           {brands.map((brand, idx) => (
 //             <div key={idx} className={`${brand.bg} rounded-lg overflow-hidden h-44 relative group cursor-pointer shadow-md hover:shadow-xl transition`}>
@@ -364,7 +364,7 @@
 //         </div>
 //       </section>
 
-      
+
 //     </div>
 //   );
 // };
@@ -381,16 +381,27 @@ import { ShoppingCart, Heart, Search, Menu, User, Star, ChevronRight, ChevronDow
 import phoneImage from './assets/phone.png'
 import ProductCard from './components/ProductCard';
 import { useNavigate } from 'react-router-dom';
-import { apiPost } from './hooks/erpnextApi';
+import { apiGet, apiPost } from './hooks/erpnextApi';
 
 const EcommerceHomepage = () => {
   const [cartCount, setCartCount] = useState(0);
   const [likedItems, setLikedItems] = useState([]);
   const [smartphones, setSmartphones] = useState([]);
   const [fashionableProducts, setFashionableProducts] = useState([]);
+  const [fetchcategories, setFetchCategories] = useState([]);
+
+
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    apiGet("http://192.168.101.182:8002/api/method/custom.api.get_item_group.get_item_group").then((response) => {
+      // console.log("Categories fetched:", response.message);
+      setFetchCategories(response.message);
+    }).catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
+  }, []);
   // const smartphones = [
   //   { 
   //     name: 'Galaxy S23 Ultra', 
@@ -443,31 +454,31 @@ const EcommerceHomepage = () => {
   ];
 
   const brands = [
-    { 
-      name: 'iPhone', 
-      discount: 'UP to 80% OFF', 
+    {
+      name: 'iPhone',
+      discount: 'UP to 80% OFF',
       bg: 'bg-gray-900',
       image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop&q=80',
       logo: '🍎'
     },
-    { 
-      name: 'realme', 
-      discount: 'UP to 80% OFF', 
+    {
+      name: 'realme',
+      discount: 'UP to 80% OFF',
       bg: 'bg-yellow-400',
       image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=300&fit=crop&q=80',
       logo: 'realme',
       textColor: 'text-gray-900'
     },
-    { 
-      name: 'XIAOMI', 
-      discount: 'UP to 80% OFF', 
+    {
+      name: 'XIAOMI',
+      discount: 'UP to 80% OFF',
       bg: 'bg-orange-500',
       image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=300&fit=crop&q=80',
       logo: 'mi'
     },
-    { 
-      name: 'Samsung', 
-      discount: 'UP to 80% OFF', 
+    {
+      name: 'Samsung',
+      discount: 'UP to 80% OFF',
       bg: 'bg-blue-600',
       image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=300&fit=crop&q=80',
       logo: 'SAMSUNG'
@@ -475,8 +486,8 @@ const EcommerceHomepage = () => {
   ];
 
   const toggleLike = (productId) => {
-    setLikedItems(prev => 
-      prev.includes(productId) 
+    setLikedItems(prev =>
+      prev.includes(productId)
         ? prev.filter(id => id !== productId)
         : [...prev, productId]
     );
@@ -553,12 +564,12 @@ const EcommerceHomepage = () => {
         item_group: item_group
       });
 
-      if(item_group == 'electronics') {
+      if (item_group == 'electronics') {
 
         setSmartphones(res.message)
       }
 
-      if(item_group == 'Fashion') {
+      if (item_group == 'Fashion') {
 
         setFashionableProducts(res.message)
       }
@@ -576,7 +587,7 @@ const EcommerceHomepage = () => {
     getBestDeals('electronics')
     getBestDeals('Fashion')
   }, [])
-  
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -585,22 +596,22 @@ const EcommerceHomepage = () => {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-2">
           {categories.map((category, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               onClick={() => navigate('/productlist', {
-      state: { category: category.name }
-    })}
+                state: { category: category.name }
+              })}
               className="flex flex-col items-center cursor-pointer group shrink-0"
             >
               {/* Image Container */}
               <div className="w-16 sm:w-20 md:w-24 aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-1 sm:mb-2 transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                <img 
-                  src={category.image} 
+                <img
+                  src={category.image}
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              
+
               {/* Category Name */}
               <span className="text-[10px] sm:text-xs font-medium text-gray-800 text-center leading-tight px-1 w-16 sm:w-20 md:w-24">
                 {category.name}
@@ -624,10 +635,10 @@ const EcommerceHomepage = () => {
                   <div className="text-[8px] sm:text-xs mt-1">16th - 22nd NOV</div>
                 </div>
               </div>
-              <img 
-                src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=300&fit=crop&q=80" 
-                alt="Refrigerator" 
-                className="h-32 sm:h-40 object-contain" 
+              <img
+                src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=300&fit=crop&q=80"
+                alt="Refrigerator"
+                className="h-32 sm:h-40 object-contain"
               />
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Cool Inside. Hot Offer Outside</h2>
@@ -685,7 +696,7 @@ const EcommerceHomepage = () => {
             View All <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
           {smartphones.map((phone, idx) => (
             <ProductCard key={idx} phone={phone} idx={idx} />
@@ -697,13 +708,13 @@ const EcommerceHomepage = () => {
       <section className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-8">
         <div className="flex items-center justify-between mb-3 sm:mb-5 px-2">
           <h2 className="text-sm sm:text-base md:text-xl font-semibold text-gray-900">
-           Best Seller in <span className="text-blue-600">Fashion</span>
+            Best Seller in <span className="text-blue-600">Fashion</span>
           </h2>
           <button className="text-blue-600 text-xs sm:text-sm font-medium flex items-center gap-1 hover:underline">
             View All <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
           {fashionableProducts.map((phone, idx) => (
             <ProductCard key={idx} phone={phone} idx={idx} />
@@ -721,7 +732,7 @@ const EcommerceHomepage = () => {
             View All <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 sm:gap-3 md:gap-4">
           {categories.map((cat, idx) => (
             <div key={idx} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition cursor-pointer group">
@@ -746,7 +757,7 @@ const EcommerceHomepage = () => {
             View All <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
           {brands.map((brand, idx) => (
             <div key={idx} className={`${brand.bg} rounded-lg overflow-hidden h-32 sm:h-36 md:h-44 relative group cursor-pointer shadow-md hover:shadow-xl transition`}>
@@ -761,7 +772,7 @@ const EcommerceHomepage = () => {
           ))}
         </div>
         <div className="flex justify-center gap-2 mt-4">
-          {[0,1,2,3].map((i) => (
+          {[0, 1, 2, 3].map((i) => (
             <div key={i} className={`h-1.5 sm:h-2 rounded-full transition ${i === 0 ? 'bg-blue-600 w-6 sm:w-8' : 'bg-gray-300 w-1.5 sm:w-2'}`}></div>
           ))}
         </div>
@@ -831,7 +842,7 @@ const EcommerceHomepage = () => {
         </div>
       </section>
 
-      
+
     </div>
   );
 };
