@@ -528,12 +528,16 @@ import { useNavigate } from 'react-router-dom';
 import { useGetCartQuotationQuery } from '../features/cartApi';
 import { apiGet } from '../hooks/erpnextApi';
 import { set } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearcategory } from '../features/slices/productsListSlice';
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [fetchcategories, setFetchCategories] = useState([]);
-
+  const [showShopDropdown, setShowShopDropdown] = useState(false);
+  const [showProductsDropdown, setShowProductsDropdown] = useState(false);
+  const [showPageDropdown, setShowPageDropdown] = useState(false);
 
   const navigate = useNavigate()
 
@@ -553,6 +557,17 @@ const Header = () => {
   const mobileSearchInputRef = useRef(null);
   const suggestionsRef = useRef(null);
   const mobileSuggestionsRef = useRef(null);
+  const dispatch = useDispatch();
+
+
+  const storedCategory = useSelector((state) => state.productsList.category);
+
+
+  // useEffect(() => {
+  //   // console.log("Selected category changed:", selectedcatogary);
+  //   console.log("Stored category from Redux:", storedCategory);
+  // }, [selectedCatogary]);
+
 
   // Debounce search term
   useEffect(() => {
@@ -679,6 +694,12 @@ const Header = () => {
   //     </div>
   //   );
   // };
+
+  const handelNavigateToHome = () => {
+    navigate('/')
+    dispatch(clearcategory());
+  }
+
   return (
     <div>
       {/* Header */}
@@ -694,7 +715,7 @@ const Header = () => {
             </button>
 
             {/* Logo */}
-            <h1 onClick={() => navigate('/')} className="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer">
+            <h1 onClick={handelNavigateToHome} className="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer">
               Ecomm
             </h1>
 
@@ -869,29 +890,54 @@ const Header = () => {
               </button>
 
               {/* Premium Dropdown Menu */}
-              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
-                  <div className="grid grid-cols-2 gap-6 p-6">
-                    <div>
-                      {/* <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Shop Categories</h3> */}
-                      <ul className="space-y-2">
-                        {fetchcategories && fetchcategories.map((category) => (
-                          <li key={category.name}>
-                            <a
-                              onClick={() => {
-                                navigate('/productlist', {
-                                  state: { category: category.name }
-                                })
-                              }} className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm"> {category.name}</a>
-                          </li>
-                        ))}
-                        {/* <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">New Arrivals</a></li>
+              <Activity mode={show_shop_categories_options ? "visible" : "hidden"}>
+                {/* <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"> */}
+                <div className="absolute left-0 top-full pt-2 transition-all duration-300 z-50">
+                  <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                    <div className="grid grid-cols-2 gap-6 p-6">
+                      <div>
+                        {/* <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Shop Categories</h3> */}
+                        <ul className="space-y-2">
+                          {fetchcategories && fetchcategories.map((category) => (
+                            <li key={category.name}>
+                              {category.name !== storedCategory ? (<button
+                                onClick={() => {
+                                  // show_shop_categories_options(false);
+                                  // console.log('Category option:', show_shop_categories_options);
+                                  // setSelectedcatogary(category.name);
+                                  console.log('Stored category from Redux:', storedCategory);
+                                  navigate('/productlist', {
+                                    state: { category: category.name }
+                                  });
+                                  setShowShopCategories_options(p => !p);
+                                  // console.log('Navigating to category:', category.name);
+                                }} className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">
+                                {category.name}
+                              </button>) : (
+                                <button
+                                  onClick={() => {
+                                    // show_shop_categories_options(false);
+                                    console.log('Category option:', show_shop_categories_options);
+
+
+                                    // navigate('/productlist', {
+                                    //   state: { category: category.name }
+                                    // });
+                                    setShowShopCategories_options(p => !p);
+
+                                    // console.log('Navigating to category:', category.name);
+                                  }} className="text-blue-600 pl-1 transition-all duration-200 text-sm">
+                                  {category.name}
+                                </button>)}
+                            </li>
+                          ))}
+                          {/* <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">New Arrivals</a></li>
                         <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Best Sellers</a></li>
                         <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Featured</a></li>
                         <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">On Sale</a></li> */}
-                      </ul>
-                    </div>
-                    {/* <div>
+                        </ul>
+                      </div>
+                      {/* <div>
                       <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Collections</h3>
                       <ul className="space-y-2">
                         <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Summer</a></li>
@@ -900,17 +946,20 @@ const Header = () => {
                         <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Clearance</a></li>
                       </ul>
                     </div> */}
-                  </div>
-                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
-                    <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">View All Shop →</a>
+                    </div>
+                    {/* <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                      <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">View All Shop →</a>
+                    </div> */}
                   </div>
                 </div>
-              </div>
+              </Activity>
             </div>
 
             {/* Shop Dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+              <button
+                onMouseEnter={() => setShowShopCategories_options(false)}
+                className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
                 SHOP
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
               </button>
@@ -947,7 +996,11 @@ const Header = () => {
 
             {/* Products Dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+              <button
+                onMouseEnter={() => setShowShopCategories_options(false)}
+
+                className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+
                 PRODUCTS
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
               </button>
@@ -990,7 +1043,10 @@ const Header = () => {
 
             {/* Page Dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
+              <button
+                onMouseEnter={() => setShowShopCategories_options(false)}
+
+                className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
                 PAGE
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
               </button>
@@ -1013,72 +1069,202 @@ const Header = () => {
       </div >
 
       {/* Mobile Menu with Premium Dropdowns */}
-      {
-        mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-gray-200">
-            <div className="px-4 py-2">
-              <nav className="flex flex-col text-sm font-medium">
+      {/* Mobile Menu with Improved Dropdowns */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-gray-200 max-h-[calc(100vh-64px)] overflow-y-auto">
+          <div className="px-4 py-2">
+            <nav className="flex flex-col text-sm font-medium">
+
+              {/* Shop by Categories */}
+              <div className="border-b border-gray-100">
                 <button
-                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-900"
+                  className="w-full flex items-center justify-between py-3 px-3 text-gray-900 hover:bg-gray-50 rounded transition-colors"
                   onClick={() => setShowShopCategories_options(!show_shop_categories_options)}
                 >
                   <span className="flex items-center gap-2">
                     <Menu className="w-5 h-5" />
                     SHOP BY CATEGORIES
                   </span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${show_shop_categories_options ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${show_shop_categories_options ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
-                {/* Mobile Shop Dropdown */}
-                {show_shop_categories_options && (
-                  <div className="bg-gray-50 py-3 px-4 border-b border-gray-100">
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                      <option>All Categories</option>
-                      {fetchcategories && fetchcategories.map((category) => (
-                        <option key={category.name} value={category.name}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
+                {/* Animated Shop Categories Dropdown - SCROLLABLE */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${show_shop_categories_options ? 'max-h-64' : 'max-h-0'}`}
+                >
+                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                    {fetchcategories && fetchcategories.map((category) => (
+                      <button
+                        key={category.name}
+                        onClick={() => {
+                          navigate('/productlist', {
+                            state: { category: category.name }
+                          });
+                          setShowShopCategories_options(false);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded text-sm transition-all duration-200 ${category.name === storedCategory
+                          ? 'text-blue-600 font-semibold bg-blue-50'
+                          : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                          }`}
+                      >
+                        {category.name}
+                      </button>
+                    ))}
                   </div>
-                )}
+                </div>
+              </div>
 
-                {/* Mobile Shop Button */}
+              {/* Shop Dropdown */}
+              <div className="border-b border-gray-100">
                 <button
-                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
-                  onClick={() => {/* Toggle Shop submenu */ }}
+                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                  onClick={() => setShowShopDropdown(!showShopDropdown)}
                 >
                   <span>SHOP</span>
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${showShopDropdown ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
-                {/* Mobile Products Button */}
+                {/* Animated Shop Dropdown - SCROLLABLE */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showShopDropdown ? 'max-h-64' : 'max-h-0'}`}
+                >
+                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      New Arrivals
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      Best Sellers
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      Featured
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      On Sale
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Products Dropdown */}
+              <div className="border-b border-gray-100">
                 <button
-                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
-                  onClick={() => {/* Toggle Products submenu */ }}
+                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                  onClick={() => setShowProductsDropdown(!showProductsDropdown)}
                 >
                   <span>PRODUCTS</span>
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${showProductsDropdown ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
-                {/* Mobile Page Button */}
+                {/* Animated Products Dropdown - SCROLLABLE */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showProductsDropdown ? 'max-h-64' : 'max-h-0'}`}
+                >
+                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                    {/* Electronics */}
+                    <div className="mb-3">
+                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Electronics</h4>
+                      <div className="space-y-1">
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Laptops
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Phones
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Tablets
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Fashion */}
+                    <div className="mb-3">
+                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Fashion</h4>
+                      <div className="space-y-1">
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Men
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Women
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Kids
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Home & Living */}
+                    <div>
+                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Home & Living</h4>
+                      <div className="space-y-1">
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Furniture
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Decor
+                        </button>
+                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                          Kitchen
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Page Dropdown */}
+              <div className="border-b border-gray-100">
                 <button
-                  className="flex items-center justify-between py-3 border-b border-gray-100 text-gray-700"
-                  onClick={() => {/* Toggle Page submenu */ }}
+                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                  onClick={() => setShowPageDropdown(!showPageDropdown)}
                 >
                   <span>PAGE</span>
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${showPageDropdown ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
-                <button className="flex items-center gap-2 py-3 text-gray-700">
-                  <User className="w-5 h-5" />
-                  <span>Account</span>
-                </button>
-              </nav>
-            </div>
+                {/* Animated Page Dropdown - SCROLLABLE */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showPageDropdown ? 'max-h-64' : 'max-h-0'}`}
+                >
+                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      About Us
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      Contact Us
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      FAQ
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      Privacy Policy
+                    </button>
+                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                      Terms & Conditions
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Account Button */}
+              <button className="w-full flex items-center gap-2 py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors border-b border-gray-100">
+                <User className="w-5 h-5" />
+                <span>Account</span>
+              </button>
+            </nav>
           </div>
-        )
-      }
+        </div>
+      )}
+
+
 
     </div >
   );
