@@ -545,6 +545,8 @@ const Header = () => {
   const [searching, setSearching] = useState(false);
   const [show_shop_categories_options, setShowShopCategories_options] = useState(false);
 
+  const [searchCategory, setSearchCategory] = useState('')
+
   const { data, isLoading, error, refetch } = useGetCartQuotationQuery();
 
   const searchInputRef = useRef(null);
@@ -592,8 +594,14 @@ const Header = () => {
       });
 
       const result = await response.json();
-      if (result.message) {
-        setSuggestions(result.message);
+      console.log(searchCategory)
+      if (searchCategory) {
+       //need to work on this
+       let filteredCateories =  result.filter(product => product.category == searchCategory)
+       setSuggestions(filteredCateories);
+        setShowSuggestions(true);
+      } else {
+         setSuggestions(result.message);
         setShowSuggestions(true);
       }
     } catch (err) {
@@ -695,7 +703,7 @@ const Header = () => {
               <select className="px-4 py-2 border border-r-0 border-gray-300 rounded-l text-sm bg-white focus:outline-none">
                 <option>All Categories</option>
                 {fetchcategories && fetchcategories.map((category) => (
-                  <option key={category.name} value={category.name}>
+                  <option onClick={() => setSearchCategory(category.name)} key={category.name} value={category.name}>
                     {category.name}
                   </option>
                 ))}

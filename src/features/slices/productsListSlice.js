@@ -27,11 +27,11 @@ export const fetchData = createAsyncThunk("apicall/fetchData", async (payload) =
             },
             body: JSON.stringify({
                 query_args: {
-                    field_filters: {},
-                    attribute_filters: {},
+                    field_filters: payload.filters?.field_filters || {},
+                    attribute_filters: payload.filters?.attribute_filters || {},
                     item_group: payload.category || null,
                     start: start,
-                    from_filters: false,
+                    from_filters: true,
                     page_length: payload.pageLength,
                 }
             })

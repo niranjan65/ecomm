@@ -856,6 +856,13 @@ export default function AllProductsList() {
   const [category, setCategory] = useState(null)
   const dispatch = useDispatch();
 
+  //filters state
+  const [appliedFilters, setAppliedFilters] = useState({
+  field_filters: {},
+  attribute_filters: {},
+});
+
+
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -866,41 +873,68 @@ export default function AllProductsList() {
   const PAGE_LENGTH = 9;
 
   const location = useLocation()
-  // useCallback(() => {
-  //   console.log("location state:", location?.state.category)
-  //   if (location?.state?.category) {
-  //     setCategory(location.state.category)
-  //   }
-  // }, [location]);
+ 
+
+  //for size
+  useEffect(() => {
+  if(selectedSizes.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Size: selectedSizes
+    }
+  }));
+  }
+}, [selectedSizes]);
+
+
+//for color
+useEffect(() => {
+  if(selectedColors.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Color: selectedColors
+    }
+  }));
+  }
+}, [selectedColors]);
+
+
 
 
 
   useEffect(() => {
-    console.log("location state:", location?.state.category)
+    
     if (location?.state?.category) {
       let payload = {
         page: 1,
         category: location.state.category,
-        pageLength: PAGE_LENGTH
+        pageLength: PAGE_LENGTH,
+         filters: appliedFilters,
+         from_filters: true
       }
       dispatch(fetchData(payload));
       setCategory(location.state.category)
     }
-  }, [location?.state?.category]);
+  }, [appliedFilters, location?.state?.category]);
 
   const apidata = useSelector((state) => state.productsList);
+
+  console.log("api", apidata)
 
   useEffect(() => {
     if (!apidata) return;
 
     // setLoading(apidata.loading);
-    console.log("apidata:", apidata.data);
+    
     // setError(apidata.error);
     // console.log("apidata loading:", apidata.state == "loading");
     setLoading(apidata.state == "loading");
     // setError(apidata.error);
 
-    console.log("apidata from redux:", apidata.data.items)
     setProducts(apidata.data.items || []);
     setItemsCount(apidata.data.items_count + apidata.data.start || 0);
     setHasMore(apidata.data.has_more || false);
@@ -913,6 +947,19 @@ export default function AllProductsList() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
   }, [apidata,currentPage]);
+
+  const clearAllFilters = async() => {
+    try {
+      let payload = {
+        page: 1,
+        category: null,
+        pageLength: PAGE_LENGTH
+      }
+      dispatch(fetchData(payload));
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
 
@@ -1087,6 +1134,9 @@ export default function AllProductsList() {
   };
 
 
+  // console.log(priceRange[1])
+
+
   const totalPages = Math.ceil(itemsCount / PAGE_LENGTH);
   const startItem = (currentPage - 1) * PAGE_LENGTH + 1;
   const endItem = Math.min(currentPage * PAGE_LENGTH, itemsCount);
@@ -1106,15 +1156,16 @@ export default function AllProductsList() {
                     setSelectedColors([]);
                     setPriceRange([20, 145]);
                     setCategory(null)
+                    clearAllFilters()
                   }}
-                  className="text-sm text-gray-600 hover:text-gray-900 underline"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
                 >
                   Clear All
                 </button>
               </div>
 
               {/* Size Filter */}
-              <FilterSection title="Size">
+              {/* <FilterSection title="Size">
                 <div className="grid grid-cols-4 gap-2">
                   {sizes.map(size => (
                     <button
@@ -1129,7 +1180,37 @@ export default function AllProductsList() {
                     </button>
                   ))}
                 </div>
-              </FilterSection>
+              </FilterSection> */}
+
+              {apidata?.data?.filters?.field_filters?.map(([field, values]) => (
+  <FilterSection key={field.fieldname} title={field.label}>
+    {values.map(value => (
+      <label key={value} className="flex gap-2">
+        <input
+          type="checkbox"
+          onChange={() =>
+            setAppliedFilters(prev => {
+              const current = prev.field_filters[field.fieldname] || [];
+              const updated = current.includes(value)
+                ? current.filter(v => v !== value)
+                : [...current, value];
+
+              return {
+                ...prev,
+                field_filters: {
+                  ...prev.field_filters,
+                  [field.fieldname]: updated
+                }
+              };
+            })
+          }
+        />
+        {value}
+      </label>
+    ))}
+  </FilterSection>
+))}
+
 
               {/* Color Filter */}
               <FilterSection title="Color">

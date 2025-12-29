@@ -257,20 +257,20 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, ArrowRight } from 'lucide-react';
-// ✅ USING THE NEW SDK AS REQUESTED
 import { GoogleGenAI } from "@google/genai";
 import botLogo from '../assets/bot.png'; 
 
-// ⚠️ WARNING: API Keys in frontend code are visible to users.
-const API_KEY = "AIzaSyCRwB2QuAt0RodgSz50FiIfwZRSLYYF5hI"; 
+
+ 
 
 const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
+    
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState('');
   const [suggestedQuestions, setSuggestedQuestions] = useState([])
   
-  // Refs to persist the chat object across renders
+
   const chatRef = useRef(null);
   const messagesEndRef = useRef(null);
 
@@ -278,18 +278,19 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
     { 
       id: 1, 
       type: 'bot', 
-      content: "Hi there! I'm Neko. I know about all the products in the house. Ask me anything!" 
+      content: "Hi there! I'm Ecomm. I know about all the products in the house. Ask me anything!" 
     }
   ]);
 
   
   useEffect(() => {
+    
     const initChat = async () => {
       try {
-        const ai = new GoogleGenAI({ apiKey: API_KEY });
+        const ai = new GoogleGenAI({ apiKey: "AIzaSyAhTJH06fV2M6diqesCdLd-U7XPVQwqfkI" });
         
         
-        const chat = await ai.chats.create({
+        const chat = ai.chats.create({
           model: "gemini-2.5-flash", 
           history: [
             // {
@@ -330,14 +331,14 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
     };
 
     initChat();
-  }, []);
+  }, [item_code, item_name, item_group, description]);
 
-  // Auto-scroll
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isOpen]);
 
-  // 2. Handle Sending (Using 'chat.sendMessage')
+  
   const handleSend = async () => {
     if (!input.trim()) return;
 
@@ -374,7 +375,7 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
 
       setIsTyping(false);
 
-    //   console.log("response text", responseText)
+    
       const jsonString = responseText.replace(/```json\n?/g, '').replace(/```/g, '').trim();
       const data = JSON.parse(jsonString);
 
