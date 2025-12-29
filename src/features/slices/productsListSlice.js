@@ -51,15 +51,21 @@ const productsList = createSlice({
     initialState: {
         state: "idle",
         data: [],
+        category: "",
         error: "null",
     },
-    reducers: {},
+    reducers: {
+        clearcategory: (state) => {
+            state.category = "";
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchData.pending, (state) => {
             state.state = "loading";
         })
             .addCase(fetchData.fulfilled, (state, action) => {
                 state.state = "succeeded";
+                state.category = action.meta.arg.category || "";
                 state.data = action.payload;
             })
             .addCase(fetchData.rejected, (state, action) => {
@@ -68,4 +74,5 @@ const productsList = createSlice({
             });
     },
 });
+export const { clearcategory } = productsList.actions;
 export default productsList.reducer;
