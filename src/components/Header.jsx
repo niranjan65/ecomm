@@ -992,48 +992,63 @@ const Header = () => {
             {/* Products Dropdown */}
             <div className="relative group">
               <button
-                onMouseEnter={() => setShowShopCategories_options(false)}
+                // onpress={() => {
+                //   setShowProductsDropdown(p => !p);
+                // }}
+                onMouseEnter={() => {
+                  // setShowShopDropdown(true);
+                  // setShowProductsDropdown(p => !p);
+                  // setShowProductsDropdown(true);
+                  setShowShopCategories_options(false);
+                }}
+                // onMouseLeave={()=>{
+                //   setShowProductsDropdown(false);
+                // }}
+
 
                 className="flex items-center gap-1 py-4 text-gray-700 hover:text-blue-600 group-hover:text-blue-600 transition-colors duration-200">
-
                 PRODUCTS
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
               </button>
 
               {/* Premium Dropdown Menu */}
-              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
-                  <div className="grid grid-cols-3 gap-6 p-6">
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Electronics</h3>
-                      <ul className="space-y-2">
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Laptops</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Phones</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Tablets</a></li>
-                      </ul>
+              {/* <Activity mode={showProductsDropdown ? "visible" : "hidden"}> */}
+                {/* <div className="absolute left-0 top-full pt-2 transition-all duration-300 z-50"> */}
+
+                  <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-active:opacity-100 group-active:visible transition-all duration-300 z-50">
+                  <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden min-w-max">
+                    <div className="grid grid-cols-3 gap-6 p-6">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Electronics</h3>
+                        <ul className="space-y-2">
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Laptops</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Phones</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Tablets</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Fashion</h3>
+                        <ul className="space-y-2">
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Men</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Women</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kids</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Home & Living</h3>
+                        <ul className="space-y-2">
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Furniture</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Decor</a></li>
+                          <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kitchen</a></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Fashion</h3>
-                      <ul className="space-y-2">
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Men</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Women</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kids</a></li>
-                      </ul>
+                    <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                      <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">Browse All Products →</a>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-3 text-xs uppercase tracking-wider">Home & Living</h3>
-                      <ul className="space-y-2">
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Furniture</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Decor</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-blue-600 hover:pl-1 transition-all duration-200 text-sm">Kitchen</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
-                    <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-700">Browse All Products →</a>
                   </div>
                 </div>
-              </div>
+              {/* </Activity> */}
             </div>
 
             {/* Page Dropdown */}
@@ -1065,199 +1080,201 @@ const Header = () => {
 
       {/* Mobile Menu with Premium Dropdowns */}
       {/* Mobile Menu with Improved Dropdowns */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-gray-200 max-h-[calc(100vh-64px)] overflow-y-auto">
-          <div className="px-4 py-2">
-            <nav className="flex flex-col text-sm font-medium">
+      {
+        mobileMenuOpen && (
+          <div className="lg:hidden bg-white border-b border-gray-200 max-h-[calc(100vh-64px)] overflow-y-auto">
+            <div className="px-4 py-2">
+              <nav className="flex flex-col text-sm font-medium">
 
-              {/* Shop by Categories */}
-              <div className="border-b border-gray-100">
-                <button
-                  className="w-full flex items-center justify-between py-3 px-3 text-gray-900 hover:bg-gray-50 rounded transition-colors"
-                  onClick={() => setShowShopCategories_options(!show_shop_categories_options)}
-                >
-                  <span className="flex items-center gap-2">
-                    <Menu className="w-5 h-5" />
-                    SHOP BY CATEGORIES
-                  </span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${show_shop_categories_options ? 'rotate-180' : ''}`}
-                  />
-                </button>
+                {/* Shop by Categories */}
+                <div className="border-b border-gray-100">
+                  <button
+                    className="w-full flex items-center justify-between py-3 px-3 text-gray-900 hover:bg-gray-50 rounded transition-colors"
+                    onClick={() => setShowShopCategories_options(!show_shop_categories_options)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Menu className="w-5 h-5" />
+                      SHOP BY CATEGORIES
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${show_shop_categories_options ? 'rotate-180' : ''}`}
+                    />
+                  </button>
 
-                {/* Animated Shop Categories Dropdown - SCROLLABLE */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${show_shop_categories_options ? 'max-h-64' : 'max-h-0'}`}
-                >
-                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
-                    {fetchcategories && fetchcategories.map((category) => (
-                      <button
-                        key={category.name}
-                        onClick={() => {
-                          navigate('/productlist', {
-                            state: { category: category.name }
-                          });
-                          setShowShopCategories_options(false);
-                          setMobileMenuOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm transition-all duration-200 ${category.name === storedCategory
-                          ? 'text-blue-600 font-semibold bg-blue-50'
-                          : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                          }`}
-                      >
-                        {category.name}
+                  {/* Animated Shop Categories Dropdown - SCROLLABLE */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${show_shop_categories_options ? 'max-h-64' : 'max-h-0'}`}
+                  >
+                    <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                      {fetchcategories && fetchcategories.map((category) => (
+                        <button
+                          key={category.name}
+                          onClick={() => {
+                            navigate('/productlist', {
+                              state: { category: category.name }
+                            });
+                            setShowShopCategories_options(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded text-sm transition-all duration-200 ${category.name === storedCategory
+                            ? 'text-blue-600 font-semibold bg-blue-50'
+                            : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                            }`}
+                        >
+                          {category.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shop Dropdown */}
+                <div className="border-b border-gray-100">
+                  <button
+                    className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                    onClick={() => setShowShopDropdown(!showShopDropdown)}
+                  >
+                    <span>SHOP</span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${showShopDropdown ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {/* Animated Shop Dropdown - SCROLLABLE */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${showShopDropdown ? 'max-h-64' : 'max-h-0'}`}
+                  >
+                    <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        New Arrivals
                       </button>
-                    ))}
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        Best Sellers
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        Featured
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        On Sale
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Shop Dropdown */}
-              <div className="border-b border-gray-100">
-                <button
-                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
-                  onClick={() => setShowShopDropdown(!showShopDropdown)}
-                >
-                  <span>SHOP</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${showShopDropdown ? 'rotate-180' : ''}`}
-                  />
-                </button>
+                {/* Products Dropdown */}
+                <div className="border-b border-gray-100">
+                  <button
+                    className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                    onClick={() => setShowProductsDropdown(!showProductsDropdown)}
+                  >
+                    <span>PRODUCTS</span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${showProductsDropdown ? 'rotate-180' : ''}`}
+                    />
+                  </button>
 
-                {/* Animated Shop Dropdown - SCROLLABLE */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showShopDropdown ? 'max-h-64' : 'max-h-0'}`}
-                >
-                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      New Arrivals
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      Best Sellers
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      Featured
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      On Sale
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Products Dropdown */}
-              <div className="border-b border-gray-100">
-                <button
-                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
-                  onClick={() => setShowProductsDropdown(!showProductsDropdown)}
-                >
-                  <span>PRODUCTS</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${showProductsDropdown ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                {/* Animated Products Dropdown - SCROLLABLE */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showProductsDropdown ? 'max-h-64' : 'max-h-0'}`}
-                >
-                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
-                    {/* Electronics */}
-                    <div className="mb-3">
-                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Electronics</h4>
-                      <div className="space-y-1">
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Laptops
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Phones
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Tablets
-                        </button>
+                  {/* Animated Products Dropdown - SCROLLABLE */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${showProductsDropdown ? 'max-h-64' : 'max-h-0'}`}
+                  >
+                    <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                      {/* Electronics */}
+                      <div className="mb-3">
+                        <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Electronics</h4>
+                        <div className="space-y-1">
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Laptops
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Phones
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Tablets
+                          </button>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Fashion */}
-                    <div className="mb-3">
-                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Fashion</h4>
-                      <div className="space-y-1">
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Men
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Women
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Kids
-                        </button>
+                      {/* Fashion */}
+                      <div className="mb-3">
+                        <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Fashion</h4>
+                        <div className="space-y-1">
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Men
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Women
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Kids
+                          </button>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Home & Living */}
-                    <div>
-                      <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Home & Living</h4>
-                      <div className="space-y-1">
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Furniture
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Decor
-                        </button>
-                        <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                          Kitchen
-                        </button>
+                      {/* Home & Living */}
+                      <div>
+                        <h4 className="font-semibold text-gray-900 text-xs uppercase mb-2 px-3">Home & Living</h4>
+                        <div className="space-y-1">
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Furniture
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Decor
+                          </button>
+                          <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                            Kitchen
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Page Dropdown */}
-              <div className="border-b border-gray-100">
-                <button
-                  className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
-                  onClick={() => setShowPageDropdown(!showPageDropdown)}
-                >
-                  <span>PAGE</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${showPageDropdown ? 'rotate-180' : ''}`}
-                  />
-                </button>
+                {/* Page Dropdown */}
+                <div className="border-b border-gray-100">
+                  <button
+                    className="w-full flex items-center justify-between py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                    onClick={() => setShowPageDropdown(!showPageDropdown)}
+                  >
+                    <span>PAGE</span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${showPageDropdown ? 'rotate-180' : ''}`}
+                    />
+                  </button>
 
-                {/* Animated Page Dropdown - SCROLLABLE */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${showPageDropdown ? 'max-h-64' : 'max-h-0'}`}
-                >
-                  <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      About Us
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      Contact Us
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      FAQ
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      Privacy Policy
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
-                      Terms & Conditions
-                    </button>
+                  {/* Animated Page Dropdown - SCROLLABLE */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${showPageDropdown ? 'max-h-64' : 'max-h-0'}`}
+                  >
+                    <div className="bg-gray-50 py-2 px-4 space-y-1 max-h-60 overflow-y-auto">
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        About Us
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        Contact Us
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        FAQ
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        Privacy Policy
+                      </button>
+                      <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded text-sm transition-colors">
+                        Terms & Conditions
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Account Button */}
-              <button className="w-full flex items-center gap-2 py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors border-b border-gray-100">
-                <User className="w-5 h-5" />
-                <span>Account</span>
-              </button>
-            </nav>
+                {/* Account Button */}
+                <button className="w-full flex items-center gap-2 py-3 px-3 text-gray-700 hover:bg-gray-50 rounded transition-colors border-b border-gray-100">
+                  <User className="w-5 h-5" />
+                  <span>Account</span>
+                </button>
+              </nav>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
 
 

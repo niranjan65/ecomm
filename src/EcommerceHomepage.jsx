@@ -451,6 +451,7 @@ const EcommerceHomepage = () => {
     { name: 'Appliances', icon: '🎧', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=200&h=200&fit=crop&q=80' },
     { name: 'Fashion', icon: '🎧', image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=200&h=200&fit=crop&q=80' },
     { name: 'Groceries', icon: '🎧', image: 'https://images.unsplash.com/photo-1498579397066-22750a3cb424?w=200&h=200&fit=crop&q=80' },
+    
   ];
 
   const brands = [
@@ -594,7 +595,10 @@ const EcommerceHomepage = () => {
 
       {/* Categories - Horizontal Scroll */}
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
-        <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-2">
+        {/* <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-2"> */}
+        {/* <div className="flex items-center gap-2 sm:gap-4 sm:justify-between overflow-x-auto sm:overflow-x-visible no-scrollbar pb-2"> */}
+        <div className="flex items-center justify-between gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-2">
+
           {categories.map((category, index) => (
             <div
               key={index}
