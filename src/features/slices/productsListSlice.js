@@ -74,6 +74,16 @@ export const fetchData = createAsyncThunk("apicall/fetchData", async (payload) =
     // console.log("fetchData called with payload:", payload);
     
     const start = (payload.page - 1) * payload.pageLength;
+    console.log("body", {
+        query_args: {
+            field_filters: {},
+            attribute_filters: {},
+            item_group: payload.category || null,
+            start: start,
+            from_filters: false,
+            page_length: payload.pageLength,
+        }
+    });
     
     // Build the query_args object according to the required format
     const query_args = {
