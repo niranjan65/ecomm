@@ -696,7 +696,8 @@ import {
   useRemoveFromWishlistMutation,
   useGetCartQuotationQuery
 } from '../features/cartApi';
-import { set } from 'react-hook-form';
+import { apiPost } from '../hooks/erpnextApi';
+
 
 const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCart }) => {
   const [isWished, setIsWished] = useState(productData?.wished || false);
@@ -855,6 +856,20 @@ export default function AllProductsList() {
   const [addingToCartId, setAddingToCartId] = useState(null);
   const [category, setCategory] = useState(null)
   const dispatch = useDispatch();
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedItemGrop, setSelectedItemGroup] = useState([]);
+
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([])
+
+  const [brandList, setBrandList] = useState([])
+
+  //filters state
+  const [appliedFilters, setAppliedFilters] = useState({
+  field_filters: {},
+  attribute_filters: {},
+});
+
 
 
   // Pagination state
@@ -866,62 +881,122 @@ export default function AllProductsList() {
   const PAGE_LENGTH = 9;
 
   const location = useLocation()
-  // useCallback(() => {
-  //   console.log("location state:", location?.state.category)
-  //   if (location?.state?.category) {
-  //     setCategory(location.state.category)
-  //   }
-  // }, [location]);
+
+
+  const fetchBrandData = async() => {
+    try {
+      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_doc_list', {
+              doctype: "Brand",
+              fields: "name"
+            });
+
+        setBrandList(res.message)
+        // console.log("Response", res.message)
+    } catch (error) {
+      
+    }
+  }
+
+   const fetchAttributeData = async() => {
+    try {
+      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+              attribute_name: "Colour"
+            });
+
+      const res1 = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+              attribute_name: "Size"
+            });
+
+        setColors(res.message)
+        setSizes(res1.message)
+        // console.log("Response", res.message)
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    fetchBrandData()
+    fetchAttributeData()
+  }, [])
+ 
+
+  //for size
+  useEffect(() => {
+  if(selectedSizes.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Size: selectedSizes
+    }
+  }));
+  }
+}, [selectedSizes]);
+
+
+//for color
+useEffect(() => {
+  if(selectedColors.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Color: selectedColors
+    }
+  }));
+  }
+}, [selectedColors]);
+
+
 
 
 
   useEffect(() => {
-    console.log("location state:", location?.state.category)
+    
     if (location?.state?.category) {
       let payload = {
         page: 1,
         category: location.state.category,
-        pageLength: PAGE_LENGTH
+        pageLength: PAGE_LENGTH,
+         filters: appliedFilters,
+         from_filters: true
       }
       dispatch(fetchData(payload));
       setCategory(location.state.category)
     }
-  }, [location?.state?.category]);
+  }, [appliedFilters, location?.state?.category]);
 
   const apidata = useSelector((state) => state.productsList);
+
+ 
 
   useEffect(() => {
     if (!apidata) return;
 
-    // setLoading(apidata.loading);
-    console.log("apidata:", apidata.data);
-    // setError(apidata.error);
-    // console.log("apidata loading:", apidata.state == "loading");
     setLoading(apidata.state == "loading");
-    // setError(apidata.error);
 
-    console.log("apidata from redux:", apidata.data.items)
     setProducts(apidata.data.items || []);
     setItemsCount(apidata.data.items_count + apidata.data.start || 0);
     setHasMore(apidata.data.has_more || false);
-    // setCurrentPage(currentPage);
-    // setProducts(result.items);
-        // setFilters(result.filters || {});
-        // setItemsCount(result.items_count + result.start);
-        // setHasMore(result.has_more);
-        // setCurrentPage(page);
+ 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
   }, [apidata,currentPage]);
 
 
-
-  // useEffect(() => {
-  //   // console.log("category state changed:", category)
-  //   // dispatch(fetchproduct()); 
-  //   dispatch(fetchData(1, false, category, PAGE_LENGTH));
-  //   console.log("apidata:", apidata)
-  // }, []);
+  const clearAllFilters = async() => {
+    try {
+      let payload = {
+        page: 1,
+        category: null,
+        pageLength: PAGE_LENGTH
+      }
+      dispatch(fetchData(payload));
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   // RTK Query hooks
@@ -930,15 +1005,8 @@ export default function AllProductsList() {
   const [removeFromWishlist] = useRemoveFromWishlistMutation();
   const { refetch: refetchCart } = useGetCartQuotationQuery();
 
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', '37'];
-  const colors = [
-    { name: 'white', class: 'bg-white border-2 border-gray-300' },
-    { name: 'purple', class: 'bg-purple-300' },
-    { name: 'brown', class: 'bg-amber-700' },
-    { name: 'black', class: 'bg-black' },
-    { name: 'blue', class: 'bg-blue-300' },
-    { name: 'tan', class: 'bg-amber-200' },
-  ];
+ 
+ 
 
   const toggleSize = (size) => {
     setSelectedSizes(prev =>
@@ -1044,9 +1112,7 @@ export default function AllProductsList() {
     }
   };
 
-  useEffect(() => {
-    // getAllProducts(1);
-  }, []);
+
 
   const gridClasses = {
     'grid-1': 'grid-cols-1',
@@ -1087,9 +1153,92 @@ export default function AllProductsList() {
   };
 
 
-  const totalPages = Math.ceil(itemsCount / PAGE_LENGTH);
-  const startItem = (currentPage - 1) * PAGE_LENGTH + 1;
-  const endItem = Math.min(currentPage * PAGE_LENGTH, itemsCount);
+  console.log(brandList)
+
+
+  const handleBrandChange = (brand) => {
+
+    
+  setSelectedBrands((prev) =>
+    prev.includes(brand)
+      ? prev.filter((item) => item !== brand) // remove
+      : [...prev, brand] // add
+  );
+
+  
+};
+
+useEffect(() => {
+ 
+  if(selectedBrands.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    field_filters: {
+      ...prev.field_filters,
+      brand: selectedBrands
+    }
+  }));
+  }
+}, [selectedBrands]);
+
+
+
+  const handleItemGroupChange = (item_group) => {
+
+    
+  setSelectedItemGroup((prev) =>
+    prev.includes(item_group)
+      ? prev.filter((item) => item !== item_group) // remove
+      : [...prev, item_group] // add
+  );
+
+  
+};
+
+
+useEffect(() => {
+ 
+  if(selectedItemGrop.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    field_filters: {
+      ...prev.field_filters,
+      item_group: selectedItemGrop
+    }
+  }));
+  }
+}, [selectedItemGrop]);
+
+
+
+ // Handle filter changes
+  const handleFilterChange = (filterType, filterName, value) => {
+    setAppliedFilters(prev => {
+      const currentValues = prev[filterType][filterName] || [];
+      const updatedValues = currentValues.includes(value)
+        ? currentValues.filter(v => v !== value)
+        : [...currentValues, value];
+
+      // Remove the filter if no values are selected
+      const newFilters = { ...prev[filterType] };
+      if (updatedValues.length === 0) {
+        delete newFilters[filterName];
+      } else {
+        newFilters[filterName] = updatedValues;
+      }
+
+      return {
+        ...prev,
+        [filterType]: newFilters
+      };
+    });
+  };
+
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -1106,15 +1255,16 @@ export default function AllProductsList() {
                     setSelectedColors([]);
                     setPriceRange([20, 145]);
                     setCategory(null)
+                    clearAllFilters()
                   }}
-                  className="text-sm text-gray-600 hover:text-gray-900 underline"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
                 >
                   Clear All
                 </button>
               </div>
 
               {/* Size Filter */}
-              <FilterSection title="Size">
+              {/* <FilterSection title="Size">
                 <div className="grid grid-cols-4 gap-2">
                   {sizes.map(size => (
                     <button
@@ -1129,23 +1279,112 @@ export default function AllProductsList() {
                     </button>
                   ))}
                 </div>
+              </FilterSection> */}
+
+              {apidata?.data?.filters?.field_filters?.map(([field, values]) => (
+  <FilterSection key={field.fieldname} title={field.label}>
+    {values.map(value => (
+      <label key={value} className="flex gap-2">
+        <input
+          type="checkbox"
+          onChange={() =>
+            setAppliedFilters(prev => {
+              const current = prev.field_filters[field.fieldname] || [];
+              const updated = current.includes(value)
+                ? current.filter(v => v !== value)
+                : [...current, value];
+
+              return {
+                ...prev,
+                field_filters: {
+                  ...prev.field_filters,
+                  [field.fieldname]: updated
+                }
+              };
+            })
+          }
+        />
+        {value}
+      </label>
+    ))}
+  </FilterSection>
+))}
+
+              {/* Item Group Filter */}
+              <FilterSection title="Item Group">
+                <div className="space-y-3">
+
+                  <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
+                      checked={appliedFilters.field_filters["item_group"]?.includes("Products") || false}
+                      onChange={() => handleFilterChange('field_filters', "item_group", "Products")}
+                    />
+                    <span className="text-sm">
+                      Products
+                    </span>
+                  </label>
+                </div>
               </FilterSection>
+
+              {/* Brand Filter */}
+              <FilterSection title="BRAND">
+                {
+                  brandList && brandList.map((brand) => (
+                    <div key={brand.name} className="space-y-3">
+
+                  <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
+                      checked={appliedFilters.field_filters["brand"]?.includes(brand.name) || false}
+                      onChange={() => handleFilterChange('field_filters', "brand", brand.name)}
+                    />
+                    <span className="text-sm">
+                      {brand.name}
+                    </span>
+                  </label>
+                </div>
+                  ))
+                }
+              </FilterSection>
+
 
               {/* Color Filter */}
               <FilterSection title="Color">
-                <div className="grid grid-cols-6 gap-3">
-                  {colors.map(color => (
+                <div className="space-y-3">
+                  {/* {colors.map(color => (
                     <button
                       key={color.name}
-                      onClick={() => toggleColor(color.name)}
-                      className={`w-10 h-10 rounded-full ${color.class} ${selectedColors.includes(color.name)
+                      onClick={() => toggleColor(color.attribute_value)}
+                      className={`w-10 h-10 rounded-full bg-${color.attribute_value.toLowerCase()}-500 shadow ${selectedColors.includes(color.attribute_value)
                         ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
                         : 'hover:scale-110'
                         } transition-all duration-200`}
-                      aria-label={`Select ${color.name} color`}
-                      title={color.name}
+                      aria-label={`Select ${color.attribute_value} color`}
+                      title={color.attribute_value}
                     />
-                  ))}
+                  ))} */}
+
+                  {
+                  colors && colors.map((color) => (
+                    <div key={color.name} className="space-y-3">
+
+                  <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
+                      checked={appliedFilters.field_filters["color"]?.includes(color.attribute_value) || false}
+                      onChange={() => handleFilterChange('attribute_filters', "Color", color.attribute_value)}
+                    />
+                    <span className="text-sm">
+                      {color.attribute_value}
+                    </span>
+                  </label>
+                </div>
+                  ))
+                }
                 </div>
               </FilterSection>
 
@@ -1169,20 +1408,28 @@ export default function AllProductsList() {
                 </div>
               </FilterSection>
 
-              {/* Brand Product Filter */}
-              <FilterSection title="Brand Product">
-                <div className="space-y-3">
+              {/* Size Filter */}
+              <FilterSection title="BRAND">
+                {
+                  sizes && sizes.map((size) => (
+                    <div key={size.name} className="space-y-3">
+
                   <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer" />
-                    <span className="text-sm">Aby <span className="text-gray-400">(4)</span></span>
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
+                      checked={appliedFilters.field_filters["size"]?.includes(size.attribute_value) || false}
+                      onChange={() => handleFilterChange('attribute_filters', "Size", size.attribute_value)}
+                    />
+                    <span className="text-sm">
+                      {size.attribute_value}
+                    </span>
                   </label>
-                  <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer" />
-                    <span className="text-sm">Chanel <span className="text-gray-400">(1)</span></span>
-                  </label>
-                  <button className="text-sm font-medium hover:underline text-gray-700">Show More</button>
                 </div>
+                  ))
+                }
               </FilterSection>
+
 
               {/* Wish List */}
               {wishlistItems.length > 0 && (

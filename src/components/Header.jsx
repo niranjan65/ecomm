@@ -523,7 +523,7 @@
 
 
 import React, { useState, useEffect, useRef, Activity } from 'react';
-import { ChevronDown, Menu, Search, ShoppingCart, User, X, Loader2 } from 'lucide-react';
+import { ChevronDown, Menu, Search, ShoppingCart, User, X, Loader2, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useGetCartQuotationQuery } from '../features/cartApi';
 import { apiGet } from '../hooks/erpnextApi';
@@ -538,9 +538,6 @@ const Header = () => {
   const [showShopDropdown, setShowShopDropdown] = useState(false);
   const [showProductsDropdown, setShowProductsDropdown] = useState(false);
   const [showPageDropdown, setShowPageDropdown] = useState(false);
-  // You already have: show_shop_categories_options, setShowShopCategories_options
-
-
 
   const navigate = useNavigate()
 
@@ -551,7 +548,9 @@ const Header = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [searching, setSearching] = useState(false);
   const [show_shop_categories_options, setShowShopCategories_options] = useState(false);
-  // const [selectedcatogary, setSelectedcatogary] = useState("");
+
+  const [searchCategory, setSearchCategory] = useState('')
+
   const { data, isLoading, error, refetch } = useGetCartQuotationQuery();
 
   const searchInputRef = useRef(null);
@@ -610,8 +609,14 @@ const Header = () => {
       });
 
       const result = await response.json();
-      if (result.message) {
-        setSuggestions(result.message);
+      console.log(searchCategory)
+      if (searchCategory) {
+       //need to work on this
+       let filteredCateories =  result.filter(product => product.category == searchCategory)
+       setSuggestions(filteredCateories);
+        setShowSuggestions(true);
+      } else {
+         setSuggestions(result.message);
         setShowSuggestions(true);
       }
     } catch (err) {
@@ -719,7 +724,7 @@ const Header = () => {
               <select className="px-4 py-2 border border-r-0 border-gray-300 rounded-l text-sm bg-white focus:outline-none">
                 <option>All Categories</option>
                 {fetchcategories && fetchcategories.map((category) => (
-                  <option key={category.name} value={category.name}>
+                  <option onClick={() => setSearchCategory(category.name)} key={category.name} value={category.name}>
                     {category.name}
                   </option>
                 ))}
@@ -792,6 +797,12 @@ const Header = () => {
               </button>
               <button className="hidden sm:block text-gray-700 hover:text-blue-600">
                 <User className="w-6 h-6" />
+              </button>
+              <button className="relative text-gray-700 hover:text-blue-600 cursor-pointer">
+                <Heart onClick={() => navigate('/wishlist')} className="w-6 h-6" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
+                  {data?.items?.length || 0}
+                </span>
               </button>
               <button className="relative text-gray-700 hover:text-blue-600 cursor-pointer">
                 <ShoppingCart onClick={() => navigate('/checkout/cart')} className="w-6 h-6" />
