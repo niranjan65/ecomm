@@ -17,6 +17,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchData = createAsyncThunk("apicall/fetchData", async (payload) => {
     console.log("fetchData called with page:", payload.page, "category:", payload.category, "PAGE_LENGTH:", payload.pageLength);
     const start = (payload.page - 1) * payload.pageLength;
+    console.log("body", {
+        query_args: {
+            field_filters: {},
+            attribute_filters: {},
+            item_group: payload.category || null,
+            start: start,
+            from_filters: false,
+            page_length: payload.pageLength,
+        }
+    });
     try {
         const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
             method: 'POST',
