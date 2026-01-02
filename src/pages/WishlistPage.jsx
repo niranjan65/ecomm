@@ -424,12 +424,38 @@ export default function WishlistPage() {
   const [deleteTargetId, setDeleteTargetId] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState(null);
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   phone: '',
+  //   address: '',
+  //   type: 'HOME'
+  // });
+  // const [formData, setFormData] = useState({
+  //   title: '',
+  //   name: '',
+  //   phone: '',
+  //   addressLine1: '',
+  //   addressLine2: '',
+  //   city: '',
+  //   state: '',
+  //   postalCode: '',
+  //   country: '',
+  //   type: 'HOME',
+  // });
   const [formData, setFormData] = useState({
+    title: '',
     name: '',
+    countryCode: '+91', // Default to India
     phone: '',
-    address: '',
-    type: 'HOME'
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: 'IN',
+    type: 'BILLING',
   });
+
 
   const menuItems = [
     { id: 'orders', label: 'All Orders', icon: Package },
@@ -600,8 +626,8 @@ export default function WishlistPage() {
                       key={item.id}
                       onClick={() => setActiveTab(item.id)}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all mb-1 ${activeTab === item.id
-                          ? 'bg-black text-white shadow-md'
-                          : 'hover:bg-gray-100 text-gray-700'
+                        ? 'bg-black text-white shadow-md'
+                        : 'hover:bg-gray-100 text-gray-700'
                         }`}
                     >
                       <Icon size={20} />
@@ -781,7 +807,7 @@ export default function WishlistPage() {
       </div>
 
       {/* Address Modal */}
-      {showAddressModal && (
+      {/* {showAddressModal && (
         <>
           <div
             // className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 animate-fadeIn"
@@ -809,7 +835,16 @@ export default function WishlistPage() {
                       placeholder="Enter your name"
                     />
                   </div>
-
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">phone number</label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Enter your name"
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2">Phone Number</label>
                     <input
@@ -879,7 +914,270 @@ export default function WishlistPage() {
             </div>
           </div>
         </>
+      )} */}
+
+      {/* Address Modal */}
+      {/* Address Modal */}
+      {showAddressModal && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-md z-40 animate-fadeIn"
+            onClick={handleCloseModal}
+          ></div>
+
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none">
+            <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp pointer-events-auto">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold">
+                    {isEditMode ? 'Edit Address' : 'Add New Address'}
+                  </h2>
+                  <button
+                    onClick={handleCloseModal}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Address Title */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Address Title *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Home, Office, etc."
+                    />
+                  </div>
+
+                  {/* Full Name */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+
+                  {/* Phone with Country Code */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Phone Number *
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={formData.countryCode}
+                        onChange={(e) =>
+                          setFormData({ ...formData, countryCode: e.target.value })
+                        }
+                        className="w-20 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="+91"
+                        maxLength="5"
+                      />
+                      <input
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="10 digit mobile number"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Address Line 1 */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Address Line 1 *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.addressLine1}
+                      onChange={(e) =>
+                        setFormData({ ...formData, addressLine1: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Street, house no."
+                    />
+                  </div>
+
+                  {/* Address Line 2 */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Address Line 2
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.addressLine2}
+                      onChange={(e) =>
+                        setFormData({ ...formData, addressLine2: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Apartment, landmark, etc."
+                    />
+                  </div>
+
+                  {/* City / Town */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      City / Town *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.city}
+                      onChange={(e) =>
+                        setFormData({ ...formData, city: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="City or town"
+                    />
+                  </div>
+
+                  {/* State */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">State</label>
+                    <input
+                      type="text"
+                      value={formData.state}
+                      onChange={(e) =>
+                        setFormData({ ...formData, state: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="State"
+                    />
+                  </div>
+
+                  {/* Postal Code */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Postal Code
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.postalCode}
+                      onChange={(e) =>
+                        setFormData({ ...formData, postalCode: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder="Postal code"
+                    />
+                  </div>
+
+                  {/* Country Dropdown */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Country *
+                    </label>
+                    <select
+                      value={formData.country}
+                      onChange={(e) =>
+                        setFormData({ ...formData, country: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white"
+                    >
+                      <option value="">Select Country</option>
+                      <option value="IN">India</option>
+                      <option value="US">United States</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="CA">Canada</option>
+                      <option value="AU">Australia</option>
+                      <option value="DE">Germany</option>
+                      <option value="FR">France</option>
+                      <option value="IT">Italy</option>
+                      <option value="ES">Spain</option>
+                      <option value="NL">Netherlands</option>
+                      <option value="BE">Belgium</option>
+                      <option value="CH">Switzerland</option>
+                      <option value="SE">Sweden</option>
+                      <option value="NO">Norway</option>
+                      <option value="DK">Denmark</option>
+                      <option value="FI">Finland</option>
+                      <option value="PL">Poland</option>
+                      <option value="CZ">Czech Republic</option>
+                      <option value="AT">Austria</option>
+                      <option value="IE">Ireland</option>
+                      <option value="PT">Portugal</option>
+                      <option value="GR">Greece</option>
+                      <option value="JP">Japan</option>
+                      <option value="CN">China</option>
+                      <option value="IN">India</option>
+                      <option value="BR">Brazil</option>
+                      <option value="MX">Mexico</option>
+                      <option value="AR">Argentina</option>
+                      <option value="ZA">South Africa</option>
+                      <option value="SG">Singapore</option>
+                      <option value="MY">Malaysia</option>
+                      <option value="TH">Thailand</option>
+                      <option value="VN">Vietnam</option>
+                      <option value="KR">South Korea</option>
+                      <option value="NZ">New Zealand</option>
+                      <option value="AE">United Arab Emirates</option>
+                      <option value="SA">Saudi Arabia</option>
+                    </select>
+                  </div>
+
+                  {/* Address Type Dropdown */}
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Address Type *
+                    </label>
+                    <select
+                      value={formData.type}
+                      onChange={(e) =>
+                        setFormData({ ...formData, type: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white"
+                    >
+                      <option value="BILLING">Billing</option>
+                      <option value="SHIPPING">Shipping</option>
+                    </select>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={handleSaveAddress}
+                      className="flex-1 bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                    >
+                      {isEditMode ? 'Update Address' : 'Save Address'}
+                    </button>
+
+                    {isEditMode && (
+                      <button
+                        type="button"
+                        onClick={handleDeleteFromModal}
+                        className="px-6 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center gap-2"
+                      >
+                        <Trash2 size={18} />
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       )}
+
+
 
       {/* Custom Delete Confirmation Modal */}
       {showDeleteConfirm && (
