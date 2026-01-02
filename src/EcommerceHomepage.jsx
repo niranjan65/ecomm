@@ -565,6 +565,7 @@ const EcommerceHomepage = () => {
         item_group: item_group
       });
 
+
       if (item_group == 'electronics') {
 
         setSmartphones(res.message)
@@ -576,7 +577,7 @@ const EcommerceHomepage = () => {
       }
 
 
-      console.log(res)
+      console.log(res1)
 
       return res.message
     } catch (error) {

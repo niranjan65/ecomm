@@ -79,7 +79,7 @@ export const fetchData = createAsyncThunk("apicall/fetchData", async (payload) =
     const query_args = {
         field_filters: payload.filters?.field_filters || {},
         attribute_filters: payload.filters?.attribute_filters || {},
-        item_group:  null,
+        item_group:  payload.category || null,
         start: start,
         from_filters: payload.from_filters || false,
         page_length: payload.pageLength,
