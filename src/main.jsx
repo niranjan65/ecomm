@@ -3,27 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
-import store from './features/store/store.js'
-import { Toaster, toast } from 'react-hot-toast';
-
 import store, { persistor } from './features/store/store.js'
+import { Toaster, toast } from 'react-hot-toast';
 import { PersistGate } from 'redux-persist/integration/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      {/* <Toaster
-        position="top-right"
-        reverseOrder={false}
-        gutter={8}
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-        }}
-      /> */}
+      
       <Toaster
         position="top-center"  // ✅ Changed from top-right to top-center
         reverseOrder={false}
@@ -52,7 +39,7 @@ createRoot(document.getElementById('root')).render(
         }}
       />
 
-      <App />
+      
        <PersistGate loading={null} persistor={persistor}>
     <App />
   </PersistGate>
