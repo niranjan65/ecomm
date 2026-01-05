@@ -25,6 +25,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.6",
     "react-signature-canvas": "^1.0.7",
+    "redux-persist": "^6.0.0",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

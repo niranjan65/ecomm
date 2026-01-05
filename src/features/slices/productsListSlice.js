@@ -70,58 +70,65 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchData = createAsyncThunk("apicall/fetchData", async (payload) => {
-    // console.log("fetchData called with payload:", payload);
-    
+export const fetchData = createAsyncThunk(
+  "apicall/fetchData",
+  async (payload) => {
+console.log("payload", payload)
     const start = (payload.page - 1) * payload.pageLength;
-    console.log("body", {
-        query_args: {
-            field_filters: {},
-            attribute_filters: {},
-            item_group: payload.category || null,
-            start: start,
-            from_filters: false,
-            page_length: payload.pageLength,
-        }
-    });
-    
-    // Build the query_args object according to the required format
+    const showCategory = {};
+    const fieldFilters = payload.filters?.field_filters || {};
+    const attributeFilters = payload.filters?.attribute_filters || {};
+
+    if(!payload.from_filters && payload.category){
+      showCategory.category = payload.category
+    } else {
+      showCategory.category = null
+    }
+
     const query_args = {
-        field_filters: payload.filters?.field_filters || {},
-        attribute_filters: payload.filters?.attribute_filters || {},
-        item_group:  payload.category || null,
-        start: start,
-        from_filters: payload.from_filters || false,
-        page_length: payload.pageLength,
+      field_filters: fieldFilters,
+      attribute_filters: attributeFilters,
+      item_group: showCategory.category,
+      start,
+      from_filters: payload.from_filters || false,
+      page_length: payload.pageLength,
     };
 
-    // console.log("Sending query_args:", query_args);
+    console.log("query args",query_args)
+    
+    // if (!payload.from_filters && payload.category) {
+    //   query_args.item_group = payload.category;
+    //   query_args.category= payload.category
+    // }
+
 
     try {
-        const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                'Authorization': 'token 1a5cfcab01776e5:63628feef82aa59'
-            },
-            body: JSON.stringify({
-                query_args: query_args
-            })
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
+      const response = await fetch(
+        "http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            Authorization: "token 1a5cfcab01776e5:63628feef82aa59",
+          },
+          body: JSON.stringify({ query_args }),
         }
-        
-        const data = await response.json();
-        // console.log("API Response:", data);
-        return data.message;
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch data");
+
+      const data = await response.json();
+      return data.message;
+
     } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
+      console.error("Fetch error:", error);
+      throw error;
     }
-});
+  }
+);
+
+
 
 const productsList = createSlice({
     name: "productsList",
@@ -138,6 +145,9 @@ const productsList = createSlice({
         error: null,
     },
     reducers: {
+        setCategory: (state, action) => {
+      state.category = action.payload;
+    },
         clearcategory: (state) => {
             state.category = "";
         },
@@ -160,5 +170,5 @@ const productsList = createSlice({
     },
 });
 
-export const { clearcategory } = productsList.actions;
+export const { setCategory, clearcategory } = productsList.actions;
 export default productsList.reducer;
