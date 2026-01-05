@@ -22,7 +22,6 @@ createRoot(document.getElementById('root')).render(
           },
         }}
       /> */}
-      // In main.jsx or App.jsx - Update Toaster
       <Toaster
         position="top-center"  // ✅ Changed from top-right to top-center
         reverseOrder={false}
