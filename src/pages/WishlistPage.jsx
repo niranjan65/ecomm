@@ -1742,7 +1742,7 @@ export default function WishlistPage() {
     setFormData({
       title: '',
       name: '',
-      countryCode: '+91', // ✅ Add this
+      countryCode: '', // ✅ Add this
       phone: '',
       addressLine1: '',
       addressLine2: '',
@@ -1750,7 +1750,7 @@ export default function WishlistPage() {
       state: '',
       postalCode: '',
       country: '',
-      type: 'BILLING',
+      type: 'Billing',
     });
     setIsEditMode(false);
     setEditingAddressId(null);
@@ -1762,6 +1762,7 @@ export default function WishlistPage() {
       title: address.title || '',
       addressLine1: address.addressLine1 || '',
       addressLine2: address.addressLine2 || '',
+      countryCode: address.countryCode || '', // ✅ Add this
       city: address.city || '',
       state: address.state || '',
       postalCode: address.postalCode || '',
@@ -1774,187 +1775,9 @@ export default function WishlistPage() {
     setShowAddressModal(true);
   };
 
-  // const handleSaveAddress = () => {
-  //   // Validate required fields
-  //   const requiredFields = [
-  //     { field: 'title', label: 'Address Title' },
-  //     { field: 'addressLine1', label: 'Address Line 1' },
-  //     { field: 'city', label: 'City/Town' },
-  //     { field: 'phone', label: 'Phone' },
-  //     { field: 'country', label: 'Country' },
-  //     { field: 'type', label: 'Address Type' },
-  //   ];
-
-  //   for (const { field, label } of requiredFields) {
-  //     if (!formData[field] || formData[field].trim() === '') {
-  //       showToast(`${label} is required`, 'error');
-  //       return;
-  //     }
-  //   }
-
-  //   // Phone number validation (basic check)
-  //   if (formData.phone.length < 10) {
-  //     showToast('Please enter a valid phone number', 'error');
-  //     return;
-  //   }
-
-  //   const addressData = {
-  //     title: formData.title,
-  //     addressLine1: formData.addressLine1,
-  //     addressLine2: formData.addressLine2,
-  //     city: formData.city,
-  //     state: formData.state,
-  //     postalCode: formData.postalCode,
-  //     country: formData.country,
-  //     type: formData.type,
-  //     phone: formData.phone,
-  //   };
-
-  //   if (isEditMode) {
-  //     // Update existing address
-  //     setAddresses(addresses.map(addr =>
-  //       addr.id === editingAddressId
-  //         ? { ...addressData, id: editingAddressId }
-  //         : addr
-  //     ));
-  //     console.log('Address Updated:', JSON.stringify({ ...addressData, id: editingAddressId }, null, 2));
-  //     showToast('Address updated successfully', 'success');
-  //   } else {
-  //     // Add new address
-  //     const newAddress = { ...addressData, id: Date.now() };
-  //     setAddresses([...addresses, newAddress]);
-  //     console.log('New Address Added:', JSON.stringify(newAddress, null, 2));
-  //     showToast('Address added successfully', 'success');
-  //   }
-
-  //   handleCloseModal();
-  // };
-
-
-  // const handleSaveAddress = async () => {
-  //   try {
-  //     // ✅ Validate required fields
-  //     if (!formData.title?.trim()) {
-  //       showToast('Address Title is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.name?.trim()) {
-  //       showToast('Full Name is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.phone?.trim()) {
-  //       showToast('Phone Number is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.addressLine1?.trim()) {
-  //       showToast('Address Line 1 is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.city?.trim()) {
-  //       showToast('City is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.country?.trim()) {
-  //       showToast('Country is required', 'error');
-  //       return;
-  //     }
-  //     if (!formData.type?.trim()) {
-  //       showToast('Address Type is required', 'error');
-  //       return;
-  //     }
-
-  //     // ✅ Prepare address data
-  //     const addressData = {
-  //       title: formData.title.trim(),
-  //       name: formData.name.trim(),
-  //       countryCode: formData.countryCode || '+91',
-  //       phone: formData.phone.trim(),
-  //       addressLine1: formData.addressLine1.trim(),
-  //       addressLine2: formData.addressLine2?.trim() || '',
-  //       city: formData.city.trim(),
-  //       state: formData.state?.trim() || '',
-  //       postalCode: formData.postalCode?.trim() || '',
-  //       country: formData.country,
-  //       type: formData.type,
-  //     };
-
-  //     // ✅ Try API call with error handling
-  //     try {
-  //       if (isEditMode) {
-  //         // Update API call
-  //         const response = await apiPost('/api/update-address', {
-  //           id: editingAddressId,
-  //           ...addressData,
-  //         });
-
-  //         if (response.status === 'success' || response.message) {
-  //           setAddresses(addresses.map(addr =>
-  //             addr.id === editingAddressId
-  //               ? { ...addressData, id: editingAddressId }
-  //               : addr
-  //           ));
-  //           showToast('Address updated successfully', 'success');
-  //         }
-  //       } else {
-  //         // Create API call
-  //         const response = await apiPost('/api/add-address', addressData);
-
-  //         if (response.status === 'success' || response.message) {
-  //           const newAddress = { ...addressData, id: Date.now() };
-  //           setAddresses([...addresses, newAddress]);
-  //           showToast('Address added successfully', 'success');
-  //         }
-  //       }
-  //     } catch (apiError) {
-  //       console.error('API Error:', apiError);
-  //       showToast(
-  //         apiError?.message || 'Failed to save address. Please try again.',
-  //         'error'
-  //       );
-  //       return; // Don't close modal on API error
-  //     }
-
-  //     // ✅ Only close modal if everything succeeded
-  //     handleCloseModal();
-  //   } catch (error) {
-  //     console.error('Form Error:', error);
-  //     showToast('An unexpected error occurred. Please try again.', 'error');
-  //   }
-  // };
-
 
   const handleSaveAddress = () => {
-    try {
-      // ✅ Validate required fields
-      // if (!formData.title?.trim()) {
-      //   showToast('Address Title is required', 'error');
-      //   return;
-      // }
-      // if (!formData.name?.trim()) {
-      //   showToast('Full Name is required', 'error');
-      //   return;
-      // }
-      // if (!formData.phone?.trim()) {
-      //   showToast('Phone Number is required', 'error');
-      //   return;
-      // }
-      // if (!formData.addressLine1?.trim()) {
-      //   showToast('Address Line 1 is required', 'error');
-      //   return;
-      // }
-      // if (!formData.city?.trim()) {
-      //   showToast('City is required', 'error');
-      //   return;
-      // }
-      // if (!formData.country?.trim()) {
-      //   showToast('Country is required', 'error');
-      //   return;
-      // }
-      // if (!formData.type?.trim()) {
-      //   showToast('Address Type is required', 'error');
-      //   return;
-      // }
-
+    try {      
       // ✅ Prepare address data
       const addressData = {
         title: formData.title.trim(),

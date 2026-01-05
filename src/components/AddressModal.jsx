@@ -1,7 +1,37 @@
 import { Toaster, toast } from 'react-hot-toast';
 // import { Toaster } from 'react-hot-toast';
 import { X, ChevronDown, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+
+// import { useState, useEffect } from 'react';
+
+
+
+const useToasterPosition = () => {
+  const [position, setPosition] = useState('bottom-right');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setPosition('top-center');
+      } else {
+        setPosition('bottom-right');
+      }
+    };
+
+    // Set initial position
+    handleResize();
+
+    // Listen for window resize
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return position;
+};
+
+
 
 // Country to Country Code Mapping
 const countryCodeMap = {
@@ -44,7 +74,152 @@ const countryCodeMap = {
 };
 
 // Phone Input with Country Code Component
-const PhoneInputWithCountryCode = ({ value, onChange, countryCode = '+91' }) => {
+// const PhoneInputWithCountryCode = ({ value, onChange, countryCode, onclick }) => {
+//   return (
+//     <div>
+//       <label className="block text-sm font-medium text-gray-700 mb-2">
+//         Phone <span className="text-red-500">*</span>
+//       </label>
+//       <div className="flex gap-2">
+//         <input
+//           type="text"
+//           value={countryCode}
+//           disabled
+//           className="w-20 px-4 py-3 border border-gray-300 rounded-md bg-gray-100 text-sm font-medium text-gray-600 cursor-not-allowed"
+//         />
+
+//           <input
+//             type="tel"
+//             value={value}
+//             // disabled={countryCode ? false : true}
+//             onClick={(e) => onclick()}
+//             onChange={(e) => onChange(e.target.value)}
+//             className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-sm placeholder-gray-400 ${countryCode ? '' : 'cursor-not-allowed'}`}
+//             placeholder="Enter phone number"
+//           />
+//         </div>
+//       </div>
+
+//   );
+// };
+// const PhoneInputWithCountryCode = ({
+//   value,
+//   onChange,
+//   countryCode,
+//   onClick,
+// }) => {
+//   const disabled = !countryCode;
+
+//   return (
+//     <div>
+//       <label className="block text-sm font-medium text-gray-700 mb-2">
+//         Phone <span className="text-red-500">*</span>
+//       </label>
+
+//       <div className="flex gap-2">
+//         <input
+//           type="text"
+//           value={countryCode}
+//           disabled
+//           className="w-20 px-4 py-3 border border-gray-300 rounded-md bg-gray-100 text-sm font-medium text-gray-600 cursor-not-allowed"
+//         />
+
+//         <input
+//           type="tel"
+//           value={value}
+//           disabled={disabled}
+//           onClick={onClick}
+//           onChange={(e) => onChange(e.target.value)}
+//           className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-sm placeholder-gray-400 ${disabled ? 'cursor-not-allowed bg-gray-100' : ''
+//             }`}
+//           placeholder="Enter phone number"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// const PhoneInputWithCountryCode = ({
+//   value,
+//   onChange,
+//   countryCode,
+//   readOnly,
+//   onClick,
+// }) => {
+//   const disabled = !countryCode;
+
+//   return (
+//     <div>
+//       <label className="block text-sm font-medium text-gray-700 mb-2">
+//         Phone <span className="text-red-500">*</span>
+//       </label>
+
+//       <div className="flex gap-2">
+//         <input
+//           type="text"
+//           value={countryCode}
+//           disabled
+//           className="w-20 px-4 py-3 border border-gray-300 rounded-md bg-gray-100 text-sm font-medium text-gray-600 cursor-not-allowed"
+//         />
+
+//         <input
+//           type="tel"
+//           value={value}
+//           readOnly={readOnly}
+//           disabled={disabled}
+//           onClick={onClick}
+//           onChange={(e) => onChange(e.target.value)}
+//           className={`flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-sm placeholder-gray-400 ${
+//             disabled ? 'cursor-not-allowed bg-gray-100' : ''
+//           }`}
+//           placeholder="Enter phone number"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+// const PhoneInputWithCountryCode = ({
+//   value,
+//   onChange,
+//   countryCode,
+//   onClick,
+// }) => {
+//   return (
+//     <div>
+//       <label className="block text-sm font-medium text-gray-700 mb-2">
+//         Phone <span className="text-red-500">*</span>
+//       </label>
+
+//       <div className="flex gap-2">
+//         <input
+//           type="text"
+//           value={countryCode}
+//           disabled
+//           className="w-20 px-4 py-3 border border-gray-300 rounded-md bg-gray-100 text-sm font-medium text-gray-600 cursor-not-allowed"
+//         />
+
+//         <input
+//           type="tel"
+//           value={value}
+//           readOnly                         // cannot type, still focusable/clickable [web:23][web:59][web:67]
+//           onClick={onClick}
+//           onChange={(e) => onChange(e.target.value)}
+//           className="flex-1 px-4 py-3 border border-gray-300 rounded-md
+//                      bg-gray-100 text-gray-500 cursor-not-allowed
+//                      focus:outline-none focus:ring-0 focus:border-gray-300"  // remove active focus look
+//           placeholder="Enter phone number"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+const PhoneInputWithCountryCode = ({
+  value,
+  onChange,
+  countryCode,
+  disabled = false,
+  onDisabledClick
+}) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -60,14 +235,28 @@ const PhoneInputWithCountryCode = ({ value, onChange, countryCode = '+91' }) => 
         <input
           type="tel"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-sm placeholder-gray-400"
-          placeholder="Enter phone number"
+          onChange={(e) => !disabled && onChange(e.target.value)}
+          readOnly={disabled}
+          onClick={() => {
+            if (disabled && onDisabledClick) {
+              onDisabledClick();
+            }
+          }}
+          className={`flex-1 px-4 py-3 border border-gray-300 rounded-md text-sm placeholder-gray-400 transition-all ${disabled
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
+              : 'focus:outline-none focus:ring-2 focus:ring-black focus:border-black'
+            }`}
+          placeholder={disabled ? "Select country first" : "Enter phone number"}
         />
       </div>
     </div>
   );
 };
+
+
+
+
+
 
 // Custom Searchable Dropdown Component
 const SearchableDropdown = ({ label, value, onChange, options, placeholder, required = false }) => {
@@ -228,6 +417,7 @@ const AddressModal = ({
     { label: 'United Arab Emirates', value: 'United Arab Emirates' },
     { label: 'Saudi Arabia', value: 'Saudi Arabia' },
   ];
+  const toasterPosition = useToasterPosition();
 
   // Validation function
   const validateForm = () => {
@@ -289,9 +479,10 @@ const AddressModal = ({
   if (!showAddressModal) return null;
 
 
+
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster position={toasterPosition} />
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
@@ -366,11 +557,25 @@ const AddressModal = ({
                   />
                 </div>
 
-                <AddressTypeToggle
+                {/* <AddressTypeToggle
                   value={formData.type}
                   onChange={(type) =>
                     setFormData({ ...formData, type })
                   }
+                /> */}
+                <SearchableDropdown
+                  label="Country"
+                  value={formData.country}
+                  onChange={(country) =>
+                    setFormData({
+                      ...formData,
+                      country,
+                      countryCode: countryCodeMap[country] || '+1'
+                    })
+                  }
+                  options={countries}
+                  placeholder="Select country"
+                  required={true}
                 />
               </div>
 
@@ -424,13 +629,45 @@ const AddressModal = ({
                   />
                 </div>
 
+                {/* <PhoneInputWithCountryCode
+                  value={formData.phone}
+                  readOnly={true}
+                  onclick={() => { !formData.country && toast.error('Please select a country first'); }}
+                  onChange={(phone) =>
+                    setFormData({ ...formData, phone })
+                  }
+                  countryCode={formData.countryCode}
+                /> */}
+                {/* <PhoneInputWithCountryCode
+                  value={formData.phone}
+                  countryCode={formData.countryCode}
+                  onClick={() => {
+                    if (!formData.country) {
+                      toast.error('Please select a country first');
+                    }
+                  }}
+                  onChange={(phone) =>
+                    setFormData({ ...formData, phone })
+                  }
+                /> */}
+                {/* Row 5: Phone */}
                 <PhoneInputWithCountryCode
                   value={formData.phone}
                   onChange={(phone) =>
                     setFormData({ ...formData, phone })
                   }
                   countryCode={formData.countryCode}
+                  disabled={!formData.country}  // ✅ Read-only when NO country selected
+                  onDisabledClick={() => {
+                    if (!formData.country) {
+                      toast.error('Please select a country first');
+                    }
+                  }}
                 />
+
+
+
+
               </div>
 
               {/* Row 4: City and State */}
@@ -467,19 +704,12 @@ const AddressModal = ({
               </div>
 
               {/* Row 5: Country */}
-              <SearchableDropdown
-                label="Country"
-                value={formData.country}
-                onChange={(country) =>
-                  setFormData({
-                    ...formData,
-                    country,
-                    countryCode: countryCodeMap[country] || '+1'
-                  })
+
+              <AddressTypeToggle
+                value={formData.type}
+                onChange={(type) =>
+                  setFormData({ ...formData, type })
                 }
-                options={countries}
-                placeholder="Select country"
-                required={true}
               />
 
               {/* Actions */}
