@@ -1631,6 +1631,8 @@ import React, { useEffect, useState } from 'react';
 import { Heart, ShoppingCart, Trash2, Package, MapPin, Star, LogOut, Plus, Edit2, X, ChevronDown, Search } from 'lucide-react';
 import AddressModal from '../components/AddressModal';
 import { toast as hotToast } from 'react-hot-toast';
+import { apiPost } from '../hooks/erpnextApi';
+
 
 
 export default function WishlistPage() {
@@ -1706,6 +1708,24 @@ export default function WishlistPage() {
   const removeFromWishlist = (id) => {
     setWishlistItems(wishlistItems.filter(item => item.id !== id));
   };
+
+
+  const fetchWishlist = async () => {
+    try {
+      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.api.wishlist.get_wishlist', {
+        user: "niranjan.ks@anantdv.com"
+      });
+
+
+      setWishlistItems(res.message)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    fetchWishlist()
+  }, [])
 
   const handleOpenAddModal = () => {
     // setFormData({
@@ -2160,7 +2180,9 @@ export default function WishlistPage() {
                       <div key={item.id} className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
                         <div className="relative">
                           <img
-                            src={item.image}
+                            // src={item.image}
+                            src={`http://192.168.101.182:8002${item.image}`}
+
                             alt={item.item_name}
                             className="w-full h-48 object-cover"
                           />
