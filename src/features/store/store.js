@@ -1,39 +1,42 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import cartReducer from "../slices/cartSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import cartReducer from "../slices/cartSlice";
+import { cartApi } from "../cartApi";
+import productsReducer from "../slices/productsListSlice";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
+// Persist config
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["productsList"], // persist ONLY product list
+};
 
-// export const store = configureStore({
-//     reducer: {
-//         cartSlice: cartReducer,
-//     },
-//     middleware: (getDefaultMiddleware) => 
-//         getDefaultMiddleware({
-//             serializableCheck: false,
-//         }),
-//         devTools: process.env.NODE_ENV !== 'production'
-// });
-
-// export default store
-
-
-
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import cartReducer from '../slices/cartSlice';
-import { cartApi } from '../cartApi';
-import productsReducer from '../slices/productsListSlice';
-
-export const store = configureStore({
-  reducer: {
-    cart: cartReducer,
-    [cartApi.reducerPath]: cartApi.reducer,
-    productsList: productsReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(cartApi.middleware),
+// Combine reducers FIRST
+const rootReducer = combineReducers({
+  cart: cartReducer,
+  productsList: productsReducer,
+  [cartApi.reducerPath]: cartApi.reducer,
 });
 
-// Enable refetchOnFocus/refetchOnReconnect behaviors
+// Wrap root reducer with persistReducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create store
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, 
+    }).concat(cartApi.middleware),
+  devTools: process.env.NODE_ENV !== "production",
+});
+
+// Persistor
+export const persistor = persistStore(store);
+
+// Enable RTK Query listeners
 setupListeners(store.dispatch);
 
 export default store;

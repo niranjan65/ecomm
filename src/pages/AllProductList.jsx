@@ -1,689 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { ChevronDown, Minus, Grid, List, MoreVertical } from 'lucide-react';
-// import axios from 'axios';
-
-// const ProductCard = (productData) => (
-//   <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
-//     <div className={`relative  flex items-center justify-center`} >
-//       {productData?.discount && (
-//         <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 text-sm font-semibold">
-//           {discount}
-//         </div>
-//       )}
-//       <img src={`http://192.168.101.182:8002${productData?.website_image}`} alt={productData.name} className="w-full h-full object-contain" />
-//     </div>
-//     <div className="p-4">
-//       <h3 className="text-base font-medium mb-2 h-12">{productData.item_name}</h3>
-//       <div className="flex items-center gap-2 mb-4">
-//         <span className="text-lg font-semibold">{productData.formatted_price}</span>
-//         {/* {originalPrice && (
-//           <span className="text-gray-400 line-through text-sm">${originalPrice}</span>
-//         )} */}
-//       </div>
-//       <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 rounded-md font-medium transition-colors">
-//         Add to Cart
-//       </button>
-//     </div>
-//   </div>
-// );
-
-// const FilterSection = ({ title, children, defaultOpen = true }) => {
-//   const [isOpen, setIsOpen] = useState(defaultOpen);
-
-//   return (
-//     <div className="border-b border-gray-200 py-6">
-//       <button
-//         onClick={() => setIsOpen(!isOpen)}
-//         className="flex justify-between items-center w-full mb-4"
-//       >
-//         <h3 className="text-lg font-semibold">{title}</h3>
-//         <Minus className={`w-5 h-5 transition-transform ${isOpen ? '' : 'rotate-90'}`} />
-//       </button>
-//       {isOpen && <div>{children}</div>}
-//     </div>
-//   );
-// };
-
-// const WishListItem = ({ name, image }) => (
-//   <div className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-//     <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center overflow-hidden">
-//       <img src={image} alt={name} className="w-full h-full object-cover" />
-//     </div>
-//     <div className="flex-1">
-//       <p className="text-sm font-medium">{name}</p>
-//     </div>
-//   </div>
-// );
-
-// export default function AllProductsList() {
-//   const [viewMode, setViewMode] = useState('grid-4');
-//   const [selectedSizes, setSelectedSizes] = useState([]);
-//   const [selectedColors, setSelectedColors] = useState([]);
-//   const [priceRange, setPriceRange] = useState([20, 145]);
-
-//   const [products, setProducts] = useState([])
-
-//   const sizes = ['XS', 'S', 'M', 'L', 'XL', '37'];
-//   const colors = [
-//     { name: 'white', class: 'bg-white border-2 border-gray-300' },
-//     { name: 'purple', class: 'bg-purple-300' },
-//     { name: 'brown', class: 'bg-amber-700' },
-//     { name: 'black', class: 'bg-black' },
-//     { name: 'blue', class: 'bg-blue-300' },
-//     { name: 'tan', class: 'bg-amber-200' },
-//   ];
-
-// //   const products = [
-// //     { name: 'The Woven Sweet Dreams P.J. Top', price: '50.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The ReNew Merino Long Liner', price: '79.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Brushed Flannel Caro Shirt', price: '48.00', discount: '-4%', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Felted Merino Half-Zip Sweater', price: '145.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Oversized Alpaca Crew', price: '100.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Funnel-Neck Smock Top', price: '70.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Organic Cotton Chunky Beanie', price: '20.00', originalPrice: '48.00', discount: '-58%', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //     { name: 'The Gathered Drape Trench', price: '48.00', image: 'https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg', bgColor: 'bg-gray-50' },
-// //   ];
-
-//   const toggleSize = (size) => {
-//     setSelectedSizes(prev =>
-//       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
-//     );
-//   };
-
-//   const toggleColor = (color) => {
-//     setSelectedColors(prev =>
-//       prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
-//     );
-//   };
-
-//   const getAllProducts = async () => {
-//     try {
-
-//       console.log("called")
-//       const { data } = await axios.post('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data',{
-//         query_args: {
-//             field_filters: {},
-//             attribute_filters: {},
-//             item_group: null,
-//             start: null,
-//             from_filters: false
-//           }
-//       },
-//         {
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Accept": "application/json",
-//           'Authorization': 'token 1a5cfcab01776e5:63628feef82aa59'
-//         }
-//       })
-
-//       console.log("data", data?.message)
-
-//       setProducts(data?.message?.items)
-
-
-//     } catch (error) {
-
-//     }
-//   }
-
-//   useEffect(() => {
-//     getAllProducts()
-//   }, [])
-
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <div className="max-w-7xl mx-auto px-4 py-8">
-//         <div className="flex gap-8">
-//           {/* Sidebar */}
-//           <div className="w-80 shrink-0">
-//             <div className="bg-white rounded-lg p-6 sticky top-8">
-//               <h2 className="text-2xl font-bold mb-6">Filter</h2>
-
-//               {/* Size Filter */}
-//               <FilterSection title="Size">
-//                 <div className="grid grid-cols-4 gap-2">
-//                   {sizes.map(size => (
-//                     <button
-//                       key={size}
-//                       onClick={() => toggleSize(size)}
-//                       className={`py-3 px-4 border rounded-md font-medium transition-colors ${
-//                         selectedSizes.includes(size)
-//                           ? 'bg-black text-white border-black'
-//                           : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
-//                       }`}
-//                     >
-//                       {size}
-//                     </button>
-//                   ))}
-//                 </div>
-//               </FilterSection>
-
-//               {/* Color Filter */}
-//               <FilterSection title="Color">
-//                 <div className="grid grid-cols-5 gap-3">
-//                   {colors.map(color => (
-//                     <button
-//                       key={color.name}
-//                       onClick={() => toggleColor(color.name)}
-//                       className={`w-10 h-10 rounded-full ${color.class} ${
-//                         selectedColors.includes(color.name) ? 'ring-2 ring-offset-2 ring-gray-900' : ''
-//                       }`}
-//                     />
-//                   ))}
-//                 </div>
-//               </FilterSection>
-
-//               {/* Price Filter */}
-//               <FilterSection title="Price">
-//                 <div className="space-y-4">
-//                   <div className="flex justify-between text-sm font-medium">
-//                     <span>${priceRange[0]}</span>
-//                     <span>${priceRange[1]}</span>
-//                   </div>
-//                   <div className="relative pt-1">
-//                     <input
-//                       type="range"
-//                       min="20"
-//                       max="145"
-//                       value={priceRange[1]}
-//                       onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-//                       className="w-full"
-//                     />
-//                   </div>
-//                 </div>
-//               </FilterSection>
-
-//               {/* Brand Product Filter */}
-//               <FilterSection title="Brand Product">
-//                 <div className="space-y-3">
-//                   <label className="flex items-center gap-3 cursor-pointer">
-//                     <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-//                     <span className="text-sm">Aby <span className="text-gray-400">(4)</span></span>
-//                   </label>
-//                   <label className="flex items-center gap-3 cursor-pointer">
-//                     <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-//                     <span className="text-sm">Chanel <span className="text-gray-400">(1)</span></span>
-//                   </label>
-//                   <button className="text-sm font-medium hover:underline">Show More</button>
-//                 </div>
-//               </FilterSection>
-
-//               {/* Wish List */}
-//               <div className="mt-8">
-//                 <h3 className="text-lg font-semibold mb-4">My Wish List</h3>
-//                 <WishListItem name="The Woven Sweet Dreams P.J. Top" image="https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg" />
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Main Content */}
-//           <div className="flex-1">
-//             {/* Header */}
-//             <div className="bg-white rounded-lg p-4 mb-6 flex items-center justify-between">
-//               <h1 className="text-xl font-semibold">12 Items</h1>
-//               <div className="flex items-center gap-4">
-//                 <div className="flex items-center gap-2">
-//                   <span className="text-sm font-medium">Position</span>
-//                   <ChevronDown className="w-4 h-4" />
-//                 </div>
-//                 <div className="flex gap-1 ml-4">
-//                   <button
-//                     onClick={() => setViewMode('grid-1')}
-//                     className={`p-2 rounded ${viewMode === 'grid-1' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                   >
-//                     <List className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-2')}
-//                     className={`p-2 rounded ${viewMode === 'grid-2' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                   >
-//                     <Grid className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-3')}
-//                     className={`p-2 rounded ${viewMode === 'grid-3' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                   >
-//                     <MoreVertical className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-4')}
-//                     className={`p-2 rounded ${viewMode === 'grid-4' ? 'bg-black text-white' : 'hover:bg-gray-100'}`}
-//                   >
-//                     <div className="flex gap-0.5">
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                     </div>
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-5')}
-//                     className={`p-2 rounded ${viewMode === 'grid-5' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                   >
-//                     <div className="flex gap-0.5">
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                     </div>
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* Product Grid */}
-//             <div className={`grid ${
-//               viewMode === 'grid-1' ? 'grid-cols-1' :
-//               viewMode === 'grid-2' ? 'grid-cols-2' :
-//               viewMode === 'grid-3' ? 'grid-cols-3' :
-//               viewMode === 'grid-4' ? 'grid-cols-4' :
-//               'grid-cols-5'
-//             }`}>
-//               {products.map((product, index) => (
-//                 <ProductCard key={index} {...product} />
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import { ChevronDown, Minus, Grid, List, MoreVertical } from 'lucide-react';
-// import { Link } from 'react-router-dom';
-// import axios from 'axios';
-// import { useDispatch } from 'react-redux';
-// // import { addToCart } from '../features/slices/cartSlice';
-
-
-// const ProductCard = (productData) => {
-//   const dispatch = useDispatch()
-//     const handleAddToCart = async (item_code) => {
-//       // dispatch(addToCart(productData))
-//         try {
-//             console.log("add to cart called")
-//             const { data } = await axios.post('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart', {
-//                 item_code: item_code,
-//                 qty: 1
-//             }, {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "Accept": "application/json",
-//                     'Authorization': 'token 1a5cfcab01776e5:63628feef82aa59'
-//                 }
-//             }
-//             )
-
-//             console.log("add to cart called", data)
-
-//         } catch (error) {
-
-//         }
-//     }
-
-
-//      return ( 
-//   <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
-//     <div className="relative bg-gray-50 aspect-square flex items-center justify-center p-4">
-//       {productData?.discount && (
-//         <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 text-sm font-semibold rounded">
-//           {productData.discount}
-//         </div>
-//       )}
-//       <img 
-//         src={`http://192.168.101.182:8002${productData?.website_image}`} 
-//         alt={productData?.item_name || 'Product'} 
-//         className="w-full h-full object-contain"
-//         onError={(e) => {
-//           e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
-//         }}
-//       />
-//     </div>
-//     <div className="p-4">
-//       <Link to={`/product/${productData?.route}`}>
-//         <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-10">
-//         {productData?.item_name || 'Product Name'}
-//       </h3>
-//       </Link>
-//       <div className="flex items-center gap-2 mb-4">
-//         <span className="text-lg font-semibold text-gray-900">
-//           {productData?.formatted_price || 'K 0.00'}
-//         </span>
-//         {productData?.formatted_mrp && productData?.formatted_mrp !== productData?.formatted_price && (
-//           <span className="text-gray-400 line-through text-sm">
-//             {productData.formatted_mrp}
-//           </span>
-//         )}
-//       </div>
-//       <button onClick={() => handleAddToCart(productData?.item_code)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 rounded-md font-medium transition-colors">
-//         Add to Cart
-//       </button>
-//     </div>
-//   </div>
-// )}
-
-// const FilterSection = ({ title, children, defaultOpen = true }) => {
-//   const [isOpen, setIsOpen] = useState(defaultOpen);
-
-//   return (
-//     <div className="border-b border-gray-200 py-6">
-//       <button
-//         onClick={() => setIsOpen(!isOpen)}
-//         className="flex justify-between items-center w-full mb-4 text-left"
-//       >
-//         <h3 className="text-lg font-semibold">{title}</h3>
-//         <Minus className={`w-5 h-5 transition-transform ${isOpen ? '' : 'rotate-90'}`} />
-//       </button>
-//       {isOpen && <div>{children}</div>}
-//     </div>
-//   );
-// };
-
-// const WishListItem = ({ name, image }) => (
-//   <div className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
-//     <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-//       <img src={image} alt={name} className="w-full h-full object-cover" />
-//     </div>
-//     <div className="flex-1 min-w-0">
-//       <p className="text-sm font-medium truncate">{name}</p>
-//     </div>
-//   </div>
-// );
-
-// export default function AllProductsList() {
-//   const [viewMode, setViewMode] = useState('grid-4');
-//   const [selectedSizes, setSelectedSizes] = useState([]);
-//   const [selectedColors, setSelectedColors] = useState([]);
-//   const [priceRange, setPriceRange] = useState([20, 145]);
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   const dispatch = useDispatch()
-
-//   const sizes = ['XS', 'S', 'M', 'L', 'XL', '37'];
-//   const colors = [
-//     { name: 'white', class: 'bg-white border-2 border-gray-300' },
-//     { name: 'purple', class: 'bg-purple-300' },
-//     { name: 'brown', class: 'bg-amber-700' },
-//     { name: 'black', class: 'bg-black' },
-//     { name: 'blue', class: 'bg-blue-300' },
-//     { name: 'tan', class: 'bg-amber-200' },
-//   ];
-
-
-
-//   const toggleSize = (size) => {
-//     setSelectedSizes(prev =>
-//       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
-//     );
-//   };
-
-//   const toggleColor = (color) => {
-//     setSelectedColors(prev =>
-//       prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
-//     );
-//   };
-
-//   const getAllProducts = async () => {
-//     try {
-//       setLoading(true);
-//       setError(null);
-
-//       const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
-//         method: 'POST',
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Accept": "application/json",
-//           'Authorization': 'token 1a5cfcab01776e5:63628feef82aa59'
-//         },
-//         body: JSON.stringify({
-//           query_args: {
-//             field_filters: {},
-//             attribute_filters: {},
-//             item_group: null,
-//             start: null,
-//             from_filters: false
-//           }
-//         })
-//       });
-
-//       const data = await response.json();
-
-//       if (data?.message?.items) {
-//         setProducts(data.message.items);
-//       } else {
-//         setProducts([]);
-//       }
-//     } catch (error) {
-//       console.error('Error fetching products:', error);
-//       setError('Failed to load products. Please try again.');
-//       setProducts([]);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getAllProducts();
-//   }, []);
-
-//   const gridClasses = {
-//     'grid-1': 'grid-cols-1',
-//     'grid-2': 'grid-cols-1 sm:grid-cols-2',
-//     'grid-3': 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-//     'grid-4': 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
-//     'grid-5': 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <div className="max-w-7xl mx-auto px-4 py-8">
-//         <div className="flex flex-col lg:flex-row gap-8">
-//           {/* Sidebar */}
-//           <div className="w-full lg:w-80 lg:shrink-0">
-//             <div className="bg-white rounded-lg p-6 lg:sticky lg:top-8">
-//               <h2 className="text-2xl font-bold mb-6">Filter</h2>
-
-//               {/* Size Filter */}
-//               <FilterSection title="Size">
-//                 <div className="grid grid-cols-4 gap-2">
-//                   {sizes.map(size => (
-//                     <button
-//                       key={size}
-//                       onClick={() => toggleSize(size)}
-//                       className={`py-3 px-4 border rounded-md font-medium transition-colors ${
-//                         selectedSizes.includes(size)
-//                           ? 'bg-black text-white border-black'
-//                           : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
-//                       }`}
-//                     >
-//                       {size}
-//                     </button>
-//                   ))}
-//                 </div>
-//               </FilterSection>
-
-//               {/* Color Filter */}
-//               <FilterSection title="Color">
-//                 <div className="grid grid-cols-5 gap-3">
-//                   {colors.map(color => (
-//                     <button
-//                       key={color.name}
-//                       onClick={() => toggleColor(color.name)}
-//                       className={`w-10 h-10 rounded-full ${color.class} ${
-//                         selectedColors.includes(color.name) ? 'ring-2 ring-offset-2 ring-gray-900' : ''
-//                       } transition-all hover:scale-110`}
-//                       aria-label={`Select ${color.name} color`}
-//                     />
-//                   ))}
-//                 </div>
-//               </FilterSection>
-
-//               {/* Price Filter */}
-//               <FilterSection title="Price">
-//                 <div className="space-y-4">
-//                   <div className="flex justify-between text-sm font-medium">
-//                     <span>K {priceRange[0]}</span>
-//                     <span>K {priceRange[1]}</span>
-//                   </div>
-//                   <div className="relative pt-1">
-//                     <input
-//                       type="range"
-//                       min="20"
-//                       max="145"
-//                       value={priceRange[1]}
-//                       onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-//                       className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-900"
-//                     />
-//                   </div>
-//                 </div>
-//               </FilterSection>
-
-//               {/* Brand Product Filter */}
-//               <FilterSection title="Brand Product">
-//                 <div className="space-y-3">
-//                   <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-//                     <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-gray-900" />
-//                     <span className="text-sm">Aby <span className="text-gray-400">(4)</span></span>
-//                   </label>
-//                   <label className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-//                     <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-gray-900" />
-//                     <span className="text-sm">Chanel <span className="text-gray-400">(1)</span></span>
-//                   </label>
-//                   <button className="text-sm font-medium hover:underline text-gray-700">Show More</button>
-//                 </div>
-//               </FilterSection>
-
-//               {/* Wish List */}
-//               <div className="mt-8">
-//                 <h3 className="text-lg font-semibold mb-4">My Wish List</h3>
-//                 <WishListItem 
-//                   name="The Woven Sweet Dreams P.J. Top" 
-//                   image="https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_16_1.jpg" 
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Main Content */}
-//           <div className="flex-1 min-w-0">
-//             {/* Header */}
-//             <div className="bg-white rounded-lg p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-//               <h1 className="text-xl font-semibold">
-//                 {loading ? 'Loading...' : `${products.length} Items`}
-//               </h1>
-//               <div className="flex items-center gap-4 w-full sm:w-auto">
-//                 <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-3 py-2 rounded transition-colors">
-//                   <span className="text-sm font-medium">Position</span>
-//                   <ChevronDown className="w-4 h-4" />
-//                 </div>
-//                 <div className="flex gap-1 ml-auto">
-//                   <button
-//                     onClick={() => setViewMode('grid-1')}
-//                     className={`p-2 rounded transition-colors ${viewMode === 'grid-1' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                     aria-label="Single column view"
-//                   >
-//                     <List className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-2')}
-//                     className={`p-2 rounded transition-colors ${viewMode === 'grid-2' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                     aria-label="Two column view"
-//                   >
-//                     <Grid className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-3')}
-//                     className={`p-2 rounded transition-colors ${viewMode === 'grid-3' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                     aria-label="Three column view"
-//                   >
-//                     <MoreVertical className="w-5 h-5" />
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-4')}
-//                     className={`p-2 rounded transition-colors ${viewMode === 'grid-4' ? 'bg-black text-white' : 'hover:bg-gray-100'}`}
-//                     aria-label="Four column view"
-//                   >
-//                     <div className="flex gap-0.5">
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                       <div className="w-1 h-5 bg-current"></div>
-//                     </div>
-//                   </button>
-//                   <button
-//                     onClick={() => setViewMode('grid-5')}
-//                     className={`p-2 rounded transition-colors ${viewMode === 'grid-5' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-//                     aria-label="Five column view"
-//                   >
-//                     <div className="flex gap-0.5">
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                       <div className="w-0.5 h-5 bg-current"></div>
-//                     </div>
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* Product Grid */}
-//             {loading ? (
-//               <div className="flex items-center justify-center py-20">
-//                 <div className="text-center">
-//                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-//                   <p className="text-gray-600">Loading products...</p>
-//                 </div>
-//               </div>
-//             ) : error ? (
-//               <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
-//                 <p className="text-red-600 mb-4">{error}</p>
-//                 <button 
-//                   onClick={getAllProducts}
-//                   className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors"
-//                 >
-//                   Retry
-//                 </button>
-//               </div>
-//             ) : products.length === 0 ? (
-//               <div className="bg-white rounded-lg p-8 text-center">
-//                 <p className="text-gray-600">No products found.</p>
-//               </div>
-//             ) : (
-//               <div className={`grid ${gridClasses[viewMode]} gap-6`}>
-//                 {products.map((product, index) => (
-//                   <ProductCard key={product.name || index} {...product} />
-//                 ))}
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronDown, Minus, Grid, List, MoreVertical, Heart, ShoppingCart, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -862,7 +176,10 @@ export default function AllProductsList() {
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([])
 
-  const [brandList, setBrandList] = useState([])
+  const [brandList, setBrandList] = useState([]);
+
+
+  const apidata = useSelector((state) => state.productsList);
 
   //filters state
   const [appliedFilters, setAppliedFilters] = useState({
@@ -880,182 +197,10 @@ export default function AllProductsList() {
 
   const PAGE_LENGTH = 9;
 
-  const location = useLocation()
-
-
-  const fetchBrandData = async() => {
-    try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_doc_list', {
-              doctype: "Brand",
-              fields: "name"
-            });
-
-        setBrandList(res.message)
-        // console.log("Response", res.message)
-    } catch (error) {
-      
-    }
-  }
-
-   const fetchAttributeData = async() => {
-    try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
-              attribute_name: "Colour"
-            });
-
-      const res1 = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
-              attribute_name: "Size"
-            });
-
-        setColors(res.message)
-        setSizes(res1.message)
-        // console.log("Response", res.message)
-    } catch (error) {
-      
-    }
-  }
-
-  useEffect(() => {
-    fetchBrandData()
-    fetchAttributeData()
-  }, [])
- 
-
-  //for size
-  useEffect(() => {
-  if(selectedSizes.length > 0) {
-    setAppliedFilters(prev => ({
-    ...prev,
-    attribute_filters: {
-      ...prev.attribute_filters,
-      Size: selectedSizes
-    }
-  }));
-  }
-}, [selectedSizes]);
-
-
-//for color
-useEffect(() => {
-  if(selectedColors.length > 0) {
-    setAppliedFilters(prev => ({
-    ...prev,
-    attribute_filters: {
-      ...prev.attribute_filters,
-      Color: selectedColors
-    }
-  }));
-  }
-}, [selectedColors]);
-
-
-
-
-
-  useEffect(() => {
-    
-    if (location?.state?.category) {
-      let payload = {
-        page: 1,
-        category: location.state.category,
-        pageLength: PAGE_LENGTH,
-         filters: appliedFilters,
-         from_filters: true
-      }
-      dispatch(fetchData(payload));
-      setCategory(location.state.category)
-    }
-  }, [appliedFilters, location?.state?.category]);
-
-  const apidata = useSelector((state) => state.productsList);
+  const location = useLocation();
 
  
-
-  useEffect(() => {
-    if (!apidata) return;
-
-    setLoading(apidata.state == "loading");
-
-    setProducts(apidata.data.items || []);
-    setItemsCount(apidata.data.items_count + apidata.data.start || 0);
-    setHasMore(apidata.data.has_more || false);
- 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  }, [apidata,currentPage]);
-
-
-  const clearAllFilters = async() => {
-    try {
-      let payload = {
-        page: 1,
-        category: null,
-        pageLength: PAGE_LENGTH
-      }
-      dispatch(fetchData(payload));
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-
-  // RTK Query hooks
-  const [addToCart] = useAddToCartMutation();
-  const [addToWishlist] = useAddToWishlistMutation();
-  const [removeFromWishlist] = useRemoveFromWishlistMutation();
-  const { refetch: refetchCart } = useGetCartQuotationQuery();
-
- 
- 
-
-  const toggleSize = (size) => {
-    setSelectedSizes(prev =>
-      prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
-    );
-  };
-
-  const toggleColor = (color) => {
-    setSelectedColors(prev =>
-      prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
-    );
-  };
-
-  // Handle add to cart
-  const handleAddToCart = async (itemCode) => {
-    if (!itemCode) return;
-
-    setAddingToCartId(itemCode);
-    try {
-      await addToCart({ itemCode, qty: 1 }).unwrap();
-      await refetchCart();
-
-      // Optional: Show success message
-      alert('Item added to cart successfully!');
-    } catch (err) {
-      console.error('Failed to add to cart:', err);
-      alert('Failed to add item to cart. Please try again.');
-    } finally {
-      setAddingToCartId(null);
-    }
-  };
-
-  // Handle toggle wishlist
-  const handleToggleWishlist = async (itemCode, shouldAdd) => {
-    if (!itemCode) return;
-
-    try {
-      if (shouldAdd) {
-        await addToWishlist(itemCode).unwrap();
-      } else {
-        await removeFromWishlist(itemCode).unwrap();
-      }
-    } catch (err) {
-      console.error('Failed to toggle wishlist:', err);
-      alert('Failed to update wishlist. Please try again.');
-    }
-  };
-
-  // Fetch all products
+  console.log("location", location)
 
   const getAllProducts = async (page, resetFilters = false) => {
     const start = (page - 1) * PAGE_LENGTH;
@@ -1113,6 +258,205 @@ useEffect(() => {
   };
 
 
+  const fetchBrandData = async() => {
+    try {
+      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_doc_list', {
+              doctype: "Brand",
+              fields: "name"
+            });
+
+        setBrandList(res.message)
+        // console.log("Response", res.message)
+    } catch (error) {
+      
+    }
+  }
+
+   const fetchAttributeData = async() => {
+    try {
+      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+              attribute_name: "Colour"
+            });
+
+      const res1 = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+              attribute_name: "Size"
+            });
+
+        setColors(res.message)
+        setSizes(res1.message)
+        // console.log("Response", res.message)
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    // getAllProducts(1)
+
+    
+      
+
+    fetchBrandData()
+    fetchAttributeData()
+  }, [])
+ 
+
+  //for size
+  useEffect(() => {
+  if(selectedSizes.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Size: selectedSizes
+    }
+  }));
+  }
+}, [selectedSizes]);
+
+
+//for color
+useEffect(() => {
+  if(selectedColors.length > 0) {
+    setAppliedFilters(prev => ({
+    ...prev,
+    attribute_filters: {
+      ...prev.attribute_filters,
+      Color: selectedColors
+    }
+  }));
+  }
+}, [selectedColors]);
+
+
+
+
+
+  useEffect(() => {
+    
+    // if (location?.state?.category) {
+    //   let payload = {
+    //     page: 1,
+    //     category: location.state.category,
+    //     pageLength: PAGE_LENGTH,
+    //      filters: appliedFilters,
+    //      from_filters: true
+    //   }
+    //   dispatch(fetchData(payload));
+    //   setCategory(location.state.category)
+    // }
+
+    if(Object.keys(appliedFilters.attribute_filters).length !== 0 || Object.keys(appliedFilters.field_filters).length !== 0 ) {
+        let payload = {
+        page: 1,
+        // category: location.state.category,
+        pageLength: PAGE_LENGTH,
+         filters: appliedFilters,
+         from_filters: true
+      }
+      dispatch(fetchData(payload));
+  }
+
+  }, [appliedFilters]);
+
+  
+
+  
+
+  
+
+ 
+
+  useEffect(() => {
+    if (!apidata) return;
+
+    setLoading(apidata.state == "loading");
+
+    setProducts(apidata.data.items || []);
+    setItemsCount(apidata.data.items_count + apidata.data.start || 0);
+    setHasMore(apidata.data.has_more || false);
+ 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  }, [apidata,currentPage]);
+
+
+
+
+
+  const resetAllFilters = () => {
+    setSelectedSizes([]);
+    setSelectedColors([]);
+    setSelectedBrands([]);
+    setSelectedItemGroup([]);
+    setPriceRange([20, 145]);
+
+    setAppliedFilters({
+      field_filters: {},
+      attribute_filters: {},
+    });
+
+    setCurrentPage(1);
+
+    // Fetch products without filters
+    dispatch(fetchData({
+      page: 1,
+      category: null,
+      pageLength: PAGE_LENGTH,
+    }));
+  };
+
+
+
+  // RTK Query hooks
+  const [addToCart] = useAddToCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+  const { refetch: refetchCart } = useGetCartQuotationQuery();
+
+ 
+ 
+
+
+
+  // Handle add to cart
+  const handleAddToCart = async (itemCode) => {
+    if (!itemCode) return;
+
+    setAddingToCartId(itemCode);
+    try {
+      await addToCart({ itemCode, qty: 1 }).unwrap();
+      await refetchCart();
+
+      // Optional: Show success message
+      alert('Item added to cart successfully!');
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+      alert('Failed to add item to cart. Please try again.');
+    } finally {
+      setAddingToCartId(null);
+    }
+  };
+
+  // Handle toggle wishlist
+  const handleToggleWishlist = async (itemCode, shouldAdd) => {
+    if (!itemCode) return;
+
+    try {
+      if (shouldAdd) {
+        await addToWishlist(itemCode).unwrap();
+      } else {
+        await removeFromWishlist(itemCode).unwrap();
+      }
+    } catch (err) {
+      console.error('Failed to toggle wishlist:', err);
+      alert('Failed to update wishlist. Please try again.');
+    }
+  };
+
+
+
+
 
   const gridClasses = {
     'grid-1': 'grid-cols-1',
@@ -1153,21 +497,6 @@ useEffect(() => {
   };
 
 
-  console.log(brandList)
-
-
-  const handleBrandChange = (brand) => {
-
-    
-  setSelectedBrands((prev) =>
-    prev.includes(brand)
-      ? prev.filter((item) => item !== brand) // remove
-      : [...prev, brand] // add
-  );
-
-  
-};
-
 useEffect(() => {
  
   if(selectedBrands.length > 0) {
@@ -1183,17 +512,7 @@ useEffect(() => {
 
 
 
-  const handleItemGroupChange = (item_group) => {
 
-    
-  setSelectedItemGroup((prev) =>
-    prev.includes(item_group)
-      ? prev.filter((item) => item !== item_group) // remove
-      : [...prev, item_group] // add
-  );
-
-  
-};
 
 
 useEffect(() => {
@@ -1211,8 +530,10 @@ useEffect(() => {
 
 
 
- // Handle filter changes
+ 
   const handleFilterChange = (filterType, filterName, value) => {
+
+    
     setAppliedFilters(prev => {
       const currentValues = prev[filterType][filterName] || [];
       const updatedValues = currentValues.includes(value)
@@ -1235,6 +556,15 @@ useEffect(() => {
   };
 
 
+// useEffect(() => {
+//   dispatch(fetchData({
+//     page: 1,
+//     pageLength: PAGE_LENGTH,
+//     category,
+//     filters: appliedFilters,
+//     from_filters: true
+//   }));
+// }, [appliedFilters]);
 
 
 
@@ -1250,65 +580,12 @@ useEffect(() => {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Filter</h2>
                 <button
-                  onClick={() => {
-                    setSelectedSizes([]);
-                    setSelectedColors([]);
-                    setPriceRange([20, 145]);
-                    setCategory(null)
-                    clearAllFilters()
-                  }}
+                  onClick={resetAllFilters}
                   className="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
                 >
                   Clear All
                 </button>
               </div>
-
-              {/* Size Filter */}
-              {/* <FilterSection title="Size">
-                <div className="grid grid-cols-4 gap-2">
-                  {sizes.map(size => (
-                    <button
-                      key={size}
-                      onClick={() => toggleSize(size)}
-                      className={`py-3 px-4 border rounded-lg font-medium transition-all duration-200 ${selectedSizes.includes(size)
-                        ? 'bg-black text-white border-black scale-95'
-                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400 hover:scale-105'
-                        }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </FilterSection> */}
-
-              {apidata?.data?.filters?.field_filters?.map(([field, values]) => (
-  <FilterSection key={field.fieldname} title={field.label}>
-    {values.map(value => (
-      <label key={value} className="flex gap-2">
-        <input
-          type="checkbox"
-          onChange={() =>
-            setAppliedFilters(prev => {
-              const current = prev.field_filters[field.fieldname] || [];
-              const updated = current.includes(value)
-                ? current.filter(v => v !== value)
-                : [...current, value];
-
-              return {
-                ...prev,
-                field_filters: {
-                  ...prev.field_filters,
-                  [field.fieldname]: updated
-                }
-              };
-            })
-          }
-        />
-        {value}
-      </label>
-    ))}
-  </FilterSection>
-))}
 
               {/* Item Group Filter */}
               <FilterSection title="Item Group">
@@ -1319,7 +596,20 @@ useEffect(() => {
                       type="checkbox"
                       className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
                       checked={appliedFilters.field_filters["item_group"]?.includes("Products") || false}
-                      onChange={() => handleFilterChange('field_filters', "item_group", "Products")}
+                      // onChange={() => handleFilterChange('field_filters', "item_group", "Products")}
+                      onChange={(e) => {
+                        const checked = e.target.checked
+
+                       
+
+                        if (!checked) {
+                          
+                          resetAllFilters();
+                        } else {
+                          
+                          handleFilterChange('field_filters', 'item_group', 'Products');
+                        }
+                      }}
                     />
                     <span className="text-sm">
                       Products
@@ -1339,7 +629,20 @@ useEffect(() => {
                       type="checkbox"
                       className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
                       checked={appliedFilters.field_filters["brand"]?.includes(brand.name) || false}
-                      onChange={() => handleFilterChange('field_filters', "brand", brand.name)}
+                      // onChange={() => handleFilterChange('field_filters', "brand", brand.name)}
+                       onChange={(e) => {
+                        const checked = e.target.checked
+
+                       
+
+                        if (!checked) {
+                          
+                          resetAllFilters();
+                        } else {
+                          
+                          handleFilterChange('field_filters', 'brand', brand.name);
+                        }
+                      }}
                     />
                     <span className="text-sm">
                       {brand.name}
@@ -1354,19 +657,7 @@ useEffect(() => {
               {/* Color Filter */}
               <FilterSection title="Color">
                 <div className="space-y-3">
-                  {/* {colors.map(color => (
-                    <button
-                      key={color.name}
-                      onClick={() => toggleColor(color.attribute_value)}
-                      className={`w-10 h-10 rounded-full bg-${color.attribute_value.toLowerCase()}-500 shadow ${selectedColors.includes(color.attribute_value)
-                        ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
-                        : 'hover:scale-110'
-                        } transition-all duration-200`}
-                      aria-label={`Select ${color.attribute_value} color`}
-                      title={color.attribute_value}
-                    />
-                  ))} */}
-
+                  
                   {
                   colors && colors.map((color) => (
                     <div key={color.name} className="space-y-3">
@@ -1376,7 +667,20 @@ useEffect(() => {
                       type="checkbox"
                       className="w-4 h-4 rounded border-gray-300 accent-gray-900 cursor-pointer"
                       checked={appliedFilters.field_filters["color"]?.includes(color.attribute_value) || false}
-                      onChange={() => handleFilterChange('attribute_filters', "Color", color.attribute_value)}
+                      // onChange={() => handleFilterChange('attribute_filters', "Colour", color.attribute_value)}
+                       onChange={(e) => {
+                        const checked = e.target.checked
+
+                       
+
+                        if (!checked) {
+                          
+                          resetAllFilters();
+                        } else {
+                          
+                          handleFilterChange('attribute_filters', 'Colour', color.attribute_value);
+                        }
+                      }}
                     />
                     <span className="text-sm">
                       {color.attribute_value}
@@ -1561,15 +865,6 @@ useEffect(() => {
                 Previous
               </button>
 
-              {/* Page Info */}
-              {/* <div className="text-center">
-                    <p className="text-sm text-gray-700">
-                      Page <span className="font-semibold">{currentPage}</span> of{' '}
-                      <span className="font-semibold">{totalPages}</span>
-                    </p>
-                  </div> */}
-
-              {/* Next Button */}
               <button
                 onClick={handleNextPage}
                 disabled={!hasMore || loading}

@@ -382,6 +382,8 @@ import phoneImage from './assets/phone.png'
 import ProductCard from './components/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { apiGet, apiPost } from './hooks/erpnextApi';
+import { fetchData } from './features/slices/productsListSlice';
+import { useDispatch } from 'react-redux';
 
 const EcommerceHomepage = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -393,6 +395,8 @@ const EcommerceHomepage = () => {
 
 
   const navigate = useNavigate()
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     apiGet("http://192.168.101.182:8002/api/method/custom.api.get_item_group.get_item_group").then((response) => {
@@ -565,6 +569,7 @@ const EcommerceHomepage = () => {
         item_group: item_group
       });
 
+
       if (item_group == 'electronics') {
 
         setSmartphones(res.message)
@@ -576,7 +581,7 @@ const EcommerceHomepage = () => {
       }
 
 
-      console.log(res)
+      console.log(res1)
 
       return res.message
     } catch (error) {
@@ -602,9 +607,17 @@ const EcommerceHomepage = () => {
           {categories.map((category, index) => (
             <div
               key={index}
-              onClick={() => navigate('/productlist', {
-                state: { category: category.name }
-              })}
+              onClick={() => {
+                navigate('/productlist')
+                let payload = {
+                        page: 1,
+                        category: category.name,
+                        pageLength: 9,
+                         filters: {},
+                         from_filters: false
+                      }
+                      dispatch(fetchData(payload));
+            }}
               className="flex flex-col items-center cursor-pointer group shrink-0"
             >
               {/* Image Container */}
