@@ -291,7 +291,7 @@ const AddressModal = ({
 
   return (
     <>
-      <Toaster position="top-right" /> {/* Add this */}
+      <Toaster position="top-center" />
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
