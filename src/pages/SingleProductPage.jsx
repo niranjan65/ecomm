@@ -997,7 +997,7 @@ const SingleProductPage = () => {
       const { data } = await axios.post(
         'http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart',
         {
-          item_code: "Sodium potassium",
+          item_code: productCode,
           qty: quantity
         },
         {

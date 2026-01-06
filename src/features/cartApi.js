@@ -106,6 +106,24 @@ export const cartApi = createApi({
       }),
       invalidatesTags: ['Wishlist'],
     }),
+
+    //Request for Quotation
+     requestQuotation: builder.query({
+      query: () => '/api/method/webshop.webshop.shopping_cart.cart.request_for_quotation',
+      providesTags: ['Cart'],
+      transformResponse: (response) => {
+        const doc = response.message;
+
+        console.log("request quotation", doc)
+        // return {
+        //   quotation: doc,
+        //   items: doc?.items || [],
+        //   cartSettings: response.message?.cart_settings,
+        //   shippingAddresses: response.message?.shipping_addresses || [],
+        //   billingAddresses: response.message?.billing_addresses || [],
+        // };
+      },
+    }),
   }),
 });
 
@@ -116,4 +134,5 @@ export const {
   useRemoveFromCartMutation,
   useAddToWishlistMutation,
   useRemoveFromWishlistMutation,
+  useRequestQuotationQuery
 } = cartApi;
