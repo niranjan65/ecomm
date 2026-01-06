@@ -599,7 +599,7 @@ const EcommerceHomepage = () => {
         {/* <div className="flex items-center gap-2 sm:gap-4 sm:justify-between overflow-x-auto sm:overflow-x-visible no-scrollbar pb-2"> */}
         <div className="flex items-center justify-between gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-2">
 
-          {categories.map((category, index) => (
+          {fetchcategories.map((category, index) => (
             <div
               key={index}
               onClick={() => navigate('/productlist', {
@@ -610,7 +610,8 @@ const EcommerceHomepage = () => {
               {/* Image Container */}
               <div className="w-16 sm:w-20 md:w-24 aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-1 sm:mb-2 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                 <img
-                  src={category.image}
+                  // src={category.image}
+                  src={`http://192.168.101.182:8002/${category.image}`}
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />

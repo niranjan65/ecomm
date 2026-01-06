@@ -1675,7 +1675,7 @@ export default function WishlistPage() {
   const [formData, setFormData] = useState({
     title: '',
     name: '',
-    countryCode: '+91', // ✅ Add this
+    countryCode: '', // ✅ Add this
     phone: '',
     addressLine1: '',
     addressLine2: '',
@@ -1683,7 +1683,7 @@ export default function WishlistPage() {
     state: '',
     postalCode: '',
     country: '',
-    type: 'BILLING',
+    type: 'Billing',
   });
 
   const showToast = (message, type = 'error') => {
@@ -1766,6 +1766,7 @@ export default function WishlistPage() {
       city: address.city || '',
       state: address.state || '',
       postalCode: address.postalCode || '',
+      countryCode: address.countryCode || '', // ✅ Add this
       country: address.country || 'India',
       type: address.type || 'Billing',
       phone: address.phone || '',
