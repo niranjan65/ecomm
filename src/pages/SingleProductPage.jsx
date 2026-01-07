@@ -914,7 +914,9 @@ const SingleProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [productData, setProductData] = useState();
   const [activeTab, setActiveTab] = useState(0);
-  const [aiResponse, setAIResponse] = useState()
+  const [aiResponse, setAIResponse] = useState();
+
+  
 
   const location = useLocation();
   const ai = new GoogleGenAI({apiKey: 'AIzaSyBEwBOB2k9oJt6kzjkAfyy0f5iWttonaC4'});
