@@ -287,7 +287,7 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
     
     const initChat = async () => {
       try {
-        const ai = new GoogleGenAI({ apiKey: "AIzaSyAhTJH06fV2M6diqesCdLd-U7XPVQwqfkI" });
+        const ai = new GoogleGenAI({ apiKey: "AIzaSyCNRqIInB3ACVy_J-0jJbDAmMsHVMbb7Pg" });
         
         
         const chat = ai.chats.create({

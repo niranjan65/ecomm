@@ -4,6 +4,7 @@ import { Heart, ShoppingCart, Trash2, Package, MapPin, Star, LogOut, Plus, Edit2
 import AddressModal from '../components/AddressModal';
 import { toast as hotToast } from 'react-hot-toast';
 import { apiPost } from '../hooks/erpnextApi';
+import OrdersPage from '../components/OrdersPage';
 
 
 
@@ -100,17 +101,7 @@ export default function WishlistPage() {
   }, [])
 
   const handleOpenAddModal = () => {
-    // setFormData({
-    //   title: '',
-    //   addressLine1: '',
-    //   addressLine2: '',
-    //   city: '',
-    //   state: '',
-    //   postalCode: '',
-    //   country: 'India',
-    //   type: 'Billing',
-    //   phone: '',
-    // });
+   
     setFormData({
       title: '',
       name: '',
@@ -150,7 +141,8 @@ export default function WishlistPage() {
 
 
   const handleSaveAddress = () => {
-    try {      
+    try {
+    
       // ✅ Prepare address data
       const addressData = {
         title: formData.title.trim(),
@@ -356,6 +348,9 @@ export default function WishlistPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
+            {/* Orders */}
+            {activeTab === 'orders' && <OrdersPage />}
+
             {/* Wishlist */}
             {activeTab === 'wishlist' && (
               <div>
@@ -474,7 +469,7 @@ export default function WishlistPage() {
             )}
 
             {/* Other tabs */}
-            {(activeTab === 'orders' || activeTab === 'reviews') && (
+            {( activeTab === 'reviews') && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 text-center py-16">
                 <Package size={64} className="mx-auto mb-4 text-gray-300" />
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Coming Soon</h3>

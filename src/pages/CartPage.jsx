@@ -233,6 +233,7 @@ import { useGetCartQuotationQuery, useRemoveFromCartMutation, useUpdateCartItemM
 import { setCartData } from '../features/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCartQuotation, selectCartItems } from '../features/slices/cartSlice';
+import { apiPost } from '../hooks/erpnextApi';
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -311,6 +312,19 @@ export default function CartPage() {
       alert('Failed to remove item. Please try again.');
     }
   };
+
+
+  const handleRequestQuotation = async () => {
+    try {
+       const res = await apiPost('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.request_for_quotation',{}, {
+         'Authorization': `token 1a5cfcab01776e5:63628feef82aa59`
+       });
+
+       console.log("quotation request response", res);
+    } catch (error) {
+      
+    }
+  }
 
   // Calculate totals from quotation
   const subtotal = quotation?.base_total || 0;
@@ -585,7 +599,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <button className="w-full bg-gray-800 text-white py-4 rounded-lg hover:bg-gray-900 font-semibold transition-colors mb-3">
+              <button onClick={handleRequestQuotation} className="w-full bg-gray-800 text-white py-4 rounded-lg hover:bg-gray-900 font-semibold transition-colors mb-3">
                 Proceed to Checkout
               </button>
 
