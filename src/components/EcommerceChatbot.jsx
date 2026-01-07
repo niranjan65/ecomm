@@ -410,7 +410,7 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
         className={`
           transition-all duration-300 ease-in-out transform origin-bottom-right
           ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'}
-          w-95 h-[31rem] lg:h-150 bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl overflow-hidden flex flex-col
+          w-95 h-124 lg:h-150 bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl overflow-hidden flex flex-col
         `}
       >
         {/* Header */}

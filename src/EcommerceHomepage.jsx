@@ -384,6 +384,10 @@ import { useNavigate } from 'react-router-dom';
 import { apiGet, apiPost } from './hooks/erpnextApi';
 import { fetchData } from './features/slices/productsListSlice';
 import { useDispatch } from 'react-redux';
+import ProductCarousel from './components/ProductCarousel';
+import PreorderProductsCarousel from './components/PreorderProductsCarousel';
+import ClassifiedAds from './components/ClassifiedAds';
+import EcommerceHero from './components/EcommerceHero';
 
 const EcommerceHomepage = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -639,69 +643,9 @@ const EcommerceHomepage = () => {
       </div>
 
       {/* Hero Banner - Responsive */}
-      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 pb-4">
-        <div className="relative rounded-lg overflow-hidden bg-linear-to-r from-orange-300 via-orange-200 to-orange-100 shadow-lg">
-          {/* Mobile Layout */}
-          <div className="lg:hidden p-4 sm:p-6">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 bg-purple-600 rounded-full flex items-center justify-center text-white relative">
-                <div className="absolute inset-0 rounded-full border-4 sm:border-8 border-yellow-400 animate-pulse"></div>
-                <div className="text-center z-10">
-                  <div className="text-sm sm:text-lg font-bold">Sparkling</div>
-                  <div className="text-lg sm:text-2xl font-bold">SAVINGS</div>
-                  <div className="text-[8px] sm:text-xs mt-1">16th - 22nd NOV</div>
-                </div>
-              </div>
-              <img
-                src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=300&fit=crop&q=80"
-                alt="Refrigerator"
-                className="h-32 sm:h-40 object-contain"
-              />
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Cool Inside. Hot Offer Outside</h2>
-                <p className="text-sm sm:text-base text-white mb-2">#CashKyunEMIKaro</p>
-                <p className="text-xs sm:text-sm text-gray-700 mb-1">EMI Starts from</p>
-                <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
-                  <span className="text-2xl sm:text-3xl font-bold text-gray-900">₹830</span>
-                  <span className="text-[10px] sm:text-xs bg-white px-2 py-1 rounded">0 DOWN PAYMENT</span>
-                  <span className="text-[10px] sm:text-xs bg-white px-2 py-1 rounded">EASY EMI</span>
-                </div>
-                <button className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-bold hover:bg-orange-600 w-full sm:w-auto">
-                  CHECK ELIGIBILITY
-                </button>
-              </div>
-            </div>
-          </div>
+      
 
-          {/* Desktop Layout */}
-          <div className="hidden lg:block h-64">
-            <div className="absolute inset-0 flex items-center justify-between px-12">
-              <div className="flex items-center gap-8">
-                <div className="w-40 h-40 bg-purple-600 rounded-full flex items-center justify-center text-white relative">
-                  <div className="absolute inset-0 rounded-full border-8 border-yellow-400 animate-pulse"></div>
-                  <div className="text-center z-10">
-                    <div className="text-2xl font-bold">Sparkling</div>
-                    <div className="text-3xl font-bold">SAVINGS</div>
-                    <div className="text-xs mt-1">16th - 22nd NOV</div>
-                  </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=300&fit=crop&q=80" alt="Refrigerator" className="h-52 object-contain" />
-              </div>
-              <div className="text-right">
-                <h2 className="text-4xl font-bold text-white mb-2">Cool Inside. Hot Offer Outside</h2>
-                <p className="text-xl text-white mb-2">#CashKyunEMIKaro</p>
-                <p className="text-lg text-gray-700 mb-1">EMI Starts from</p>
-                <div className="flex items-baseline gap-2 justify-end mb-3">
-                  <span className="text-4xl font-bold text-gray-900">₹830</span>
-                  <span className="text-sm bg-white px-2 py-1 rounded">0 DOWN PAYMENT</span>
-                  <span className="text-sm bg-white px-2 py-1 rounded">EASY EMI</span>
-                </div>
-                <button className="bg-orange-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-orange-600">CHECK ELIGIBILITY</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <EcommerceHero />
 
       {/* Smartphones Section */}
       <section className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-8">
@@ -721,8 +665,14 @@ const EcommerceHomepage = () => {
         </div>
       </section>
 
+      <ProductCarousel products={fashionableProducts} />
+
+      <ClassifiedAds />
+
+      <PreorderProductsCarousel />
+
       {/* Fashion Section */}
-      <section className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-8">
+      {/* <section className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-8">
         <div className="flex items-center justify-between mb-3 sm:mb-5 px-2">
           <h2 className="text-sm sm:text-base md:text-xl font-semibold text-gray-900">
             Best Seller in <span className="text-blue-600">Fashion</span>
@@ -737,7 +687,7 @@ const EcommerceHomepage = () => {
             <ProductCard key={idx} phone={phone} idx={idx} />
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Categories Grid */}
       <section className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-8">
