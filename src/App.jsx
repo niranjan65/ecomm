@@ -7,9 +7,7 @@ import Footer from "./components/Footer"
 import AllProductList from "./pages/AllProductList"
 import WishlistPage from "./pages/WishlistPage"
 import EcommerceHomepage from "./EcommerceHomepage"
-// import Form from "./pages/Form"
-// import ResetPasswordRequest from "./pages/ResetPasswordRequest"
-// import PasswordResetPage from "./pages/PasswordResetPage"
+
 
 
 
