@@ -61,7 +61,7 @@ const ProductCard = ({ productData, onAddToCart, onToggleWishlist, isAddingToCar
 
         <Link to={`/product/${productData?.item_name}`} state={{ productCode: productData?.name }} className="w-full h-full flex items-center justify-center">
           <img
-            src={`http://192.168.101.182:8002${productData?.website_image}`}
+            src={`https://mycardpng.com${productData?.website_image}`}
             alt={productData?.item_name || 'Product'}
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           // onError={(e) => {
@@ -210,7 +210,7 @@ export default function AllProductsList() {
 
 
 
-      const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
+      const response = await fetch('https://mycardpng.com/api/method/webshop.webshop.api.get_product_filter_data', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -260,7 +260,7 @@ export default function AllProductsList() {
 
   const fetchBrandData = async() => {
     try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_doc_list', {
+      const res = await apiPost('https://mycardpng.com/api/method/custom.get_doc_value.get_doc_list', {
               doctype: "Brand",
               fields: "name"
             });
@@ -274,11 +274,11 @@ export default function AllProductsList() {
 
    const fetchAttributeData = async() => {
     try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+      const res = await apiPost('https://mycardpng.com/api/method/custom.get_doc_value.get_item_attribute', {
               attribute_name: "Colour"
             });
 
-      const res1 = await apiPost('http://192.168.101.182:8002/api/method/custom.get_doc_value.get_item_attribute', {
+      const res1 = await apiPost('https://mycardpng.com/api/method/custom.get_doc_value.get_item_attribute', {
               attribute_name: "Size"
             });
 
@@ -747,7 +747,7 @@ useEffect(() => {
                       <WishListItem
                         key={item.item_code || index}
                         name={item.item_name}
-                        image={`http://192.168.101.182:8002${item.website_image}`}
+                        image={`https://mycardpng.com${item.website_image}`}
                         route={item.route}
                       />
                     ))}

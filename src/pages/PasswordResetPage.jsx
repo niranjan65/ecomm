@@ -110,7 +110,7 @@ export default function PasswordResetPage() {
       console.log('Password Reset Data:', data);
       
       const response = await axios.post(
-      "http://192.168.101.182:8002/api/method/custom.api.update_password.custom_update_password",   {
+      "https://mycardpng.com/api/method/custom.api.update_password.custom_update_password",   {
         key,
         new_password: password
       },

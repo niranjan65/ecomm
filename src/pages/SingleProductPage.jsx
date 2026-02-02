@@ -269,7 +269,7 @@
 //   const fetchProductDetails = async(product_code) => {
 //     try {
 //       const response = await axios.post(
-//       "http://192.168.101.182:8002/api/method/custom.api.get_webitem_details.get_webitem_details",   {
+//       "https://mycardpng.com/api/method/custom.api.get_webitem_details.get_webitem_details",   {
 //         item_code: product_code, 
 //       },
 //        {
@@ -315,7 +315,7 @@
 //     const handleAddToCart = async () => {
 //         try {
 //             console.log("add to cart called")
-//             const { data } = await axios.post('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart', {
+//             const { data } = await axios.post('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.update_cart', {
 //                 item_code: "Sodium potassium",
 //                 qty: quantity
 //             }, {
@@ -387,7 +387,7 @@
 //       <img
 //         className=" object-contain md:object-cover h-[280px] md:h-110 w-full md:w-auto"
 //         // src={productImages[selectedImage]}
-//         src={`http://192.168.101.182:8002${productData?.thumbnail}`}
+//         src={`https://mycardpng.com${productData?.thumbnail}`}
 //         alt="Main product view"
 //       />
 //     </div>
@@ -619,7 +619,7 @@
 //   const fetchProductDetails = async(product_code) => {
 //     try {
 //       const response = await axios.post(
-//         "http://192.168.101.182:8002/api/method/custom.api.get_webitem_details.get_webitem_details",
+//         "https://mycardpng.com/api/method/custom.api.get_webitem_details.get_webitem_details",
 //         {
 //           item_code: product_code, 
 //         },
@@ -661,7 +661,7 @@
 //     try {
 //       console.log("add to cart called")
 //       const { data } = await axios.post(
-//         'http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart',
+//         'https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.update_cart',
 //         {
 //           item_code: "Sodium potassium",
 //           qty: quantity
@@ -732,7 +732,7 @@
 //           <div className="basis-full md:basis-4/5 w-full flex justify-center">
 //             <img
 //               className="object-contain md:object-cover h-[280px] md:h-110 w-full md:w-auto"
-//               src={`http://192.168.101.182:8002${productData?.thumbnail}`}
+//               src={`https://mycardpng.com${productData?.thumbnail}`}
 //               alt="Main product view"
 //             />
 //           </div>
@@ -955,7 +955,7 @@ const SingleProductPage = () => {
   const fetchProductDetails = async(product_code) => {
     try {
       const response = await axios.post(
-        "http://192.168.101.182:8002/api/method/custom.api.get_webitem_details.get_webitem_details",
+        "https://mycardpng.com/api/method/custom.api.get_webitem_details.get_webitem_details",
         {
           item_code: product_code, 
         },
@@ -997,7 +997,7 @@ const SingleProductPage = () => {
     try {
       console.log("add to cart called")
       const { data } = await axios.post(
-        'http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart',
+        'https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.update_cart',
         {
           item_code: productCode,
           qty: quantity
@@ -1073,7 +1073,7 @@ const SingleProductPage = () => {
           <div className="basis-full md:basis-4/5 w-full flex justify-center">
             <img
               className="object-contain md:object-cover h-[280px] md:h-110 w-full md:w-auto"
-              src={`http://192.168.101.182:8002${productData?.thumbnail}`}
+              src={`https://mycardpng.com${productData?.thumbnail}`}
               alt="Main product view"
             />
           </div>

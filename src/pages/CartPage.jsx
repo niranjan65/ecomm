@@ -30,7 +30,7 @@
 //     try {
 
 //       console.log("called")
-//       const { data } = await axios.get('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.get_cart_quotation',{
+//       const { data } = await axios.get('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.get_cart_quotation',{
 //         headers: {
 //           "Content-Type": "application/json",
 //           "Accept": "application/json",
@@ -77,7 +77,7 @@
 
 //     // try {
 //     //         console.log("add to cart called")
-//     //         const { data } = await axios.post('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.update_cart', {
+//     //         const { data } = await axios.post('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.update_cart', {
 //     //             item_code: item_code,
 //     //             qty: quantity
 //     //         }, {
@@ -121,7 +121,7 @@
 //                 <div key={item.idx} className="border-b border-gray-200 p-4">
 //                   <div className="grid grid-cols-12 gap-4 items-center">
 //                     <div className="col-span-5 flex items-center gap-4">
-//                       <img src={`http://192.168.101.182:8002${item?.image}`} alt={item.name} className="w-20 h-20 object-cover rounded" />
+//                       <img src={`https://mycardpng.com${item?.image}`} alt={item.name} className="w-20 h-20 object-cover rounded" />
 //                       <span className="font-medium">{item.item_name}</span>
 //                     </div>
 //                     <div className="col-span-2 text-right text-gray-900 font-medium">
@@ -316,7 +316,7 @@ export default function CartPage() {
 
   const handleRequestQuotation = async () => {
     try {
-       const res = await apiPost('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.request_for_quotation',{}, {
+       const res = await apiPost('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.request_for_quotation',{}, {
          'Authorization': `token 1a5cfcab01776e5:63628feef82aa59`
        });
 
@@ -420,7 +420,7 @@ export default function CartPage() {
                         <div className="col-span-6 flex items-center gap-4">
                           <div className="w-20 h-20 shrink-0 bg-gray-100 rounded overflow-hidden">
                             <img 
-                              src={`http://192.168.101.182:8002${item.image}`} 
+                              src={`https://mycardpng.com${item.image}`} 
                               alt={item.item_name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -492,7 +492,7 @@ export default function CartPage() {
                         <div className="flex gap-4 mb-4">
                           <div className="w-24 h-24 shrink-0 bg-gray-100 rounded overflow-hidden">
                             <img 
-                              src={`http://192.168.101.182:8002${item.image}`} 
+                              src={`https://mycardpng.com${item.image}`} 
                               alt={item.item_name}
                               className="w-full h-full object-cover"
                               onError={(e) => {

@@ -403,7 +403,7 @@ const EcommerceHomepage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    apiGet("http://192.168.101.182:8002/api/method/custom.api.get_item_group.get_item_group").then((response) => {
+    apiGet("https://mycardpng.com/api/method/custom.api.get_item_group.get_item_group").then((response) => {
       // console.log("Categories fetched:", response.message);
       setFetchCategories(response.message);
     }).catch((error) => {
@@ -569,7 +569,7 @@ const EcommerceHomepage = () => {
 
   const getBestDeals = async (item_group) => {
     try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_best_deals', {
+      const res = await apiPost('https://mycardpng.com/api/method/webshop.webshop.api.get_best_deals', {
         item_group: item_group
       });
 

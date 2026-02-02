@@ -6,7 +6,7 @@
 //     console.log("fetchData called with page:", payload.page, "category:", payload.category, "PAGE_LENGTH:", payload.pageLength);
 //     const start = (payload.page - 1) * payload.pageLength;
 //     try {
-//         const response = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data', {
+//         const response = await fetch('https://mycardpng.com/api/method/webshop.webshop.api.get_product_filter_data', {
 //             method: 'POST',
 //             headers: {
 //                 "Content-Type": "application/json",
@@ -104,7 +104,7 @@ console.log("payload", payload)
 
     try {
       const response = await fetch(
-        "http://192.168.101.182:8002/api/method/webshop.webshop.api.get_product_filter_data",
+        "https://mycardpng.com/api/method/webshop.webshop.api.get_product_filter_data",
         {
           method: "POST",
           headers: {

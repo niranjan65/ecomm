@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const BASE_URL = 'http://192.168.101.182:8002';
+const BASE_URL = 'https://mycardpng.com';
 
 export const cartApi = createApi({
   reducerPath: 'cartApi',

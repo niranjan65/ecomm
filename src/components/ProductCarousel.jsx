@@ -91,7 +91,7 @@ const ProductCarousel = ({products}) => {
               >
                 <div className="w-full h-52 mb-3 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
                   <img 
-                    src={`http://192.168.101.182:8002${product?.image}`} 
+                    src={`https://mycardpng.com${product?.image}`} 
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />

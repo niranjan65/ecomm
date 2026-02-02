@@ -310,7 +310,7 @@ export default function Form() {
   async function sendResetPasswordEmail(email) {
   try {
 //     const response = await axios.post(
-//       "http://192.168.101.182:8002/api/method/frappe.core.doctype.user.user.reset_password",   {
+//       "https://mycardpng.com/api/method/frappe.core.doctype.user.user.reset_password",   {
 //         user: email, 
 //       },
 //        {
@@ -323,7 +323,7 @@ export default function Form() {
 //     );
 
     const response = await axios.post(
-      "http://192.168.101.182:8002/api/method/custom.api.reset_password.custom_reset_password",   {
+      "https://mycardpng.com/api/method/custom.api.reset_password.custom_reset_password",   {
         email: email, 
       },
        {
@@ -353,7 +353,7 @@ export default function Form() {
             }
 
 
-            const response = await fetch(`http://192.168.101.182:8002/api/resource/User`, {
+            const response = await fetch(`https://mycardpng.com/api/resource/User`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -379,7 +379,7 @@ export default function Form() {
       card_blo_me_number: cbd_no,
       is_submitted: 1
     }
-            const update_user = await fetch(`http://192.168.101.182:8002/api/resource/User/${user}`, {
+            const update_user = await fetch(`https://mycardpng.com/api/resource/User/${user}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -406,7 +406,7 @@ export default function Form() {
     };
 
     
-    const response = await fetch('http://192.168.101.182:8002/api/resource/Card Blo Me Page1', {
+    const response = await fetch('https://mycardpng.com/api/resource/Card Blo Me Page1', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
