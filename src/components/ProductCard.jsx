@@ -8,7 +8,7 @@ const ProductCard = ({ phone, idx}) => {
   return (
     <div key={idx} className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
       <Link className="relative mx-3 mt-3 flex h-50 w-full overflow-hidden rounded-xl" to={`/${phone.route}`}>
-        <img className="object-cover w-[90%] rounded-lg" src={`http://192.168.101.182:8002${phone.image}`} alt="product image" />
+        <img className="object-cover w-[90%] rounded-lg" src={`https://mycardpng.com${phone.image}`} alt="product image" />
         <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">{phone.discount}</span>
       </Link>
       <div className="mt-4 px-5 pb-5">

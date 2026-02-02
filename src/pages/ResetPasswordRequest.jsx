@@ -10,7 +10,7 @@ export default function ResetPasswordRequest() {
    async function sendResetPasswordEmail() {
   try {
     const response = await axios.post(
-      "http://192.168.101.182:8002/api/method/custom.api.reset_password.custom_reset_password",   {
+      "https://mycardpng.com/api/method/custom.api.reset_password.custom_reset_password",   {
         email: email, 
       },
        {

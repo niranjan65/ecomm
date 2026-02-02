@@ -21,7 +21,7 @@ const ProductList = ({itemData}) => {
         <div className="relative w-full h-[180px] sm:h-[200px] md:h-[234px] bg-gray-100 overflow-hidden">
           <img
             // src="https://minimog.nextsky.co/minimog/media/catalog/product/cache/29af84b56a9361b7fcf1117183344176/p/r/product_megastore_10_1.jpg"
-            src={`http://192.168.101.182:8002${itemData?.website_item_thumbnail}`}
+            src={`https://mycardpng.com${itemData?.website_item_thumbnail}`}
             alt="The Felted Merino Cable-Knit Crew"
             className="w-full h-full object-cover"
           />

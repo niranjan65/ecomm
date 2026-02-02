@@ -267,7 +267,7 @@ const ReviewSection = ({ webItemCode }) => {
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const API_BASE_URL = 'http://192.168.101.182:8002';
+  const API_BASE_URL = 'https://mycardpng.com';
   const API_TOKEN = 'token 1a5cfcab01776e5:63628feef82aa59';
 
   useEffect(() => {

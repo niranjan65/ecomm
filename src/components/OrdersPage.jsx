@@ -12,7 +12,7 @@
 //   const getQuotationInfo = async() => {
     
 //       try {
-//             const res = await apiPost('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.get_user_quotations', {
+//             const res = await apiPost('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.get_user_quotations', {
 //               user: "niranjan.ks@anantdv.com"
 //             });
 
@@ -326,7 +326,7 @@ export default function OrdersPage() {
 
   const getQuotationInfo = async() => {
     try {
-      const res = await fetch('http://192.168.101.182:8002/api/method/webshop.webshop.shopping_cart.cart.get_user_quotations', {
+      const res = await fetch('https://mycardpng.com/api/method/webshop.webshop.shopping_cart.cart.get_user_quotations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

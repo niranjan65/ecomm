@@ -56,7 +56,7 @@ const Header = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    apiGet("http://192.168.101.182:8002/api/method/custom.api.get_item_group.get_item_group").then((response) => {
+    apiGet("https://mycardpng.com/api/method/custom.api.get_item_group.get_item_group").then((response) => {
       // console.log("Categories fetched:", response.message);
       setFetchCategories(response.message);
     }).catch((error) => {
@@ -77,7 +77,7 @@ const Header = () => {
   const fetchSuggestions = async (term) => {
     setSearching(true);
     try {
-      const response = await fetch('http://192.168.101.182:8002/api/method/custom.api.search_items.get_search_suggestions', {
+      const response = await fetch('https://mycardpng.com/api/method/custom.api.search_items.get_search_suggestions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ const Header = () => {
                     >
                       {suggestion.image ? (
                         <img
-                          src={`http://192.168.101.182:8002${suggestion.image}`}
+                          src={`https://mycardpng.com${suggestion.image}`}
                           alt={suggestion.label}
                           className="w-10 h-10 object-cover rounded"
                         />
@@ -352,7 +352,7 @@ const Header = () => {
                     >
                       {suggestion.image ? (
                         <img
-                          src={`http://192.168.101.182:8002${suggestion.image}`}
+                          src={`https://mycardpng.com${suggestion.image}`}
                           alt={suggestion.label}
                           className="w-8 h-8 object-cover rounded"
                         />

@@ -85,7 +85,7 @@ export default function WishlistPage() {
 
   const fetchWishlist = async () => {
     try {
-      const res = await apiPost('http://192.168.101.182:8002/api/method/custom.api.wishlist.get_wishlist', {
+      const res = await apiPost('https://mycardpng.com/api/method/custom.api.wishlist.get_wishlist', {
         user: "niranjan.ks@anantdv.com"
       });
 
@@ -370,7 +370,7 @@ export default function WishlistPage() {
                         <div className="relative">
                           <img
                             // src={item.image}
-                            src={`http://192.168.101.182:8002${item.image}`}
+                            src={`https://mycardpng.com${item.image}`}
 
                             alt={item.item_name}
                             className="w-full h-48 object-cover"
