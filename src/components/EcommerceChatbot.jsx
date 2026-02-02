@@ -270,7 +270,7 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
   const [input, setInput] = useState('');
   const [suggestedQuestions, setSuggestedQuestions] = useState([]);
 
-  const geminiAPiKey = import.meta.env.BASE_URL
+  const geminiAPiKey = import.meta.env.VITE_GEMINI_API_KEY
   
 
   const chatRef = useRef(null);
