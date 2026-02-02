@@ -268,7 +268,9 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState('');
-  const [suggestedQuestions, setSuggestedQuestions] = useState([])
+  const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+
+  const geminiAPiKey = import.meta.env.BASE_URL
   
 
   const chatRef = useRef(null);
@@ -287,7 +289,7 @@ const EcommerceChatbot = ({item_code, item_name, item_group, description}) => {
     
     const initChat = async () => {
       try {
-        const ai = new GoogleGenAI({ apiKey: "AIzaSyCNRqIInB3ACVy_J-0jJbDAmMsHVMbb7Pg" });
+        const ai = new GoogleGenAI({ apiKey: geminiAPiKey });
         
         
         const chat = ai.chats.create({
