@@ -1,5 +1,4 @@
 import { trpc } from "./client"
-import EcommerceHomepage from "./EcommerceHomePage"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CartPage from "./pages/CartPage"
 import SingleProductPage from "./pages/SingleProductPage"
@@ -7,6 +6,7 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import AllProductList from "./pages/AllProductList"
 import WishlistPage from "./pages/WishlistPage"
+import EcommerceHomepage from "./EcommerceHomepage"
 // import Form from "./pages/Form"
 // import ResetPasswordRequest from "./pages/ResetPasswordRequest"
 // import PasswordResetPage from "./pages/PasswordResetPage"
